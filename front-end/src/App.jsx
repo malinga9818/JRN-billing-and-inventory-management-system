@@ -20,7 +20,7 @@ function App() {
 
         {/* our main content */}
         <div className="flex-1">
-          <div className="p4">
+          <div className="p4 ">
             <Routes>
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />

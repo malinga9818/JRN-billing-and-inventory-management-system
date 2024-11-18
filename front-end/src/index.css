@@ -8,3 +8,6 @@ body{
 padding: 0;
 box-sizing: border-box;
 }
+.same-width-button {
+    width: 150px; /* Adjust the width to your preference */
+}
