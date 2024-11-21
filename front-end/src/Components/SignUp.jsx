@@ -1,5 +1,5 @@
-import { Button, Label, TextInput } from "flowbite-react";
 import React from "react";
+import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function SignUp() {
@@ -21,38 +21,45 @@ function SignUp() {
                 Hi!!!
               </span>
               <br />
-              Sign Up with admin provided username and password. Choose your role to get
-              started."{" "}
+              Sign Up with admin provided username and password. Choose your
+              role to get started."{" "}
             </p>
           </div>
         </div>
         <div className=" w-[430px]  text-black bg-white rounded-md opacity-70 lg:opacity-70  relative right-0 lg:right-48  bottom-8 py-4 px-10">
           <h3 className="text-center text-2xl font-bold mb-2">Sign Up</h3>
-          <form className="flex flex-col gap-4  ">
-            <div>
-              <Label value="User Name" />
-              <TextInput
+          <Form className="flex flex-col gap-4">
+            <Form.Group controlId="username">
+              <Form.Label className="block mb-1 text-sm font-medium text-gray-700">
+                User Name
+              </Form.Label>
+              <Form.Control
                 type="text"
+                name="username"
                 placeholder="user name"
-                id="email"
-                className=""
+                className="p-2 w-full border border-gray-300 rounded-md"
+                required
               />
-            </div>
-            <div>
-              <Label value="Password" />
-              <TextInput
+            </Form.Group>
+            <Form.Group controlId="password">
+              <Form.Label className="block mb-1 text-sm font-medium text-gray-700">
+                Password
+              </Form.Label>
+              <Form.Control
                 type="password"
+                name="password"
                 placeholder="*********"
-                id="password"
+                className="p-2 w-full border border-gray-300 rounded-md"
+                required
               />
-            </div>
+            </Form.Group>
             <Button
-              className=" bg-gradient-to-r from-indigo-700 via-indigo-400 to-indigo-700 rounded-lg text-white"
+              className="py-2 bg-gradient-to-r from-indigo-700 via-indigo-400 to-indigo-700 rounded-lg text-white"
               type="submit"
             >
               Sign Up
             </Button>
-          </form>
+          </Form>
           <div className="flex gap-2 text-sm mt-4">
             <span>Have an account?</span>
             <Link to="/" className="text-blue-500">
