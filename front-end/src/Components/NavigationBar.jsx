@@ -6,9 +6,9 @@ import "./NavigationBar.css";
 function NavigationBar() {
   return (
     <>
-      <Nav className="flex flex-col justify-between p-3 bg-slate-200  h-screen">
+      <Nav className="flex flex-col justify-between h-screen p-3 bg-slate-200">
         <div className="flex flex-col gap-12">
-          <h5 className=" pt-6 text-2xl">JRN roofing</h5>
+          <h5 className="pt-6 text-2xl ">JRN Modern Roofing</h5>
           <Nav.Link as={NavLink} to="/billing" ClassName="active-link gg">
             Billing
           </Nav.Link>
