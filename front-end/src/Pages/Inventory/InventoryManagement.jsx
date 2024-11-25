@@ -17,7 +17,7 @@ function InventoryManagement() {
             <Nav variant="tabs">              
               <Nav.Item>
                 <Nav.Link eventKey="Page1"> 
-                  Page1 
+                  Stock Details 
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
