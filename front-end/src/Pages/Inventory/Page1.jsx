@@ -7,18 +7,19 @@ const Page1 = () => {
   const [selectedColor, setSelectedColor] = useState("All Colors");
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(""); // "Add", "Update", or "Delete"
-  const [formData, setFormData] = useState({ id: "", name: "", qty: "", unit: "", color: "", reorderLevel: "" });
+  const [formData, setFormData] = useState({ id: "", name: "", qty: "", unit: "", color: "",gauge: "", reorderLevel: "" });
   const [stock, setStock] = useState([
-    { id: "01", name: "Sample Data", qty: 1500, unit: "Ft", color: "Blue", reorderLevel: 500 },
-    { id: "02", name: "Sample Data", qty: 150, unit: "Ft", color: "Autom Red", reorderLevel: 200 },
-    { id: "03", name: "Sample Data", qty: 250, unit: "Nos", color: "Green", reorderLevel: 100 },
-    { id: "04", name: "Sample Data", qty: 0, unit: "Ft", color: "Blue", reorderLevel: 300 },
+    { id: "01", name: "Sample Data", qty: 1500, unit: "Ft", color: "Blue", gauge: "0.47", reorderLevel: 500 },
+    { id: "02", name: "Sample Data", qty: 0, unit: "Ft", color: "Autom Red", gauge: "0.35", reorderLevel: 200 },
+    { id: "03", name: "Sample Data", qty: 250, unit: "Nos", color: "Green", gauge: "0.30", reorderLevel: 100 },
+    { id: "04", name: "Sample Data", qty: 0, unit: "Ft", color: "Chocolate Brown", gauge: "0.25", reorderLevel: 300 },
   ]);
   const [duplicateError, setDuplicateError] = useState("");
 
   const productNames = ["Normal Roofing", "Tile Roofing", "Gutter", "Barge Flashing", "Down Pipe", "Ridge Cover", "Valley Gutter", "Valance Board", "Wall Flashing", "Nozzles", "End Cap", "Bracket"];
   const units = ["Ft", "Nos"];
   const colors = ["Autom Red", "Blue", "Chocolate Brown", "Green", "Meroon"];
+  const gauges = ["0.47", "0.35", "0.30", "0.25", "0.20"]; 
 
   const handleColorChange = (color) => {
     setSelectedColor(color);
@@ -27,7 +28,7 @@ const Page1 = () => {
   const handleModalOpen = (action, item = null) => {
     setModalAction(action);
     if (action === "Add") {
-      setFormData({ id: uuidv4(), name: "", qty: "", unit: "", color: "", reorderLevel: "" });
+      setFormData({ id: uuidv4(), name: "", qty: "", unit: "", color: "", gauge: "", reorderLevel: "" });
     } else if (action === "Update") {
       setFormData(item);
     } else if (action === "Delete") {
@@ -47,11 +48,12 @@ const Page1 = () => {
       (item) =>
         item.name === formData.name &&
         item.color === formData.color &&
+        item.gauge === formData.gauge &&
         item.id !== formData.id // Allow updating the same item without flagging as duplicate
     );
 
     if (isDuplicate) {
-      setDuplicateError("A product with the same name and color already exists!"); // Replace with a better UI error if needed
+      setDuplicateError("A product with the same name, color  and gauge already exists!"); // Replace with a better UI error if needed
       return; // Stop the form submission
     }
 
@@ -96,11 +98,13 @@ const Page1 = () => {
   };
 
 
+
+
   return (
     <div className="p-3">
+
       {/* Inventory Summary */}
       <div className="mb-4 text-center d-flex justify-content-evenly">
-
         <Card
           border="info"
           style={{ width: "15rem", backgroundColor: "#64748b", color: "#fff", cursor: "pointer" }}
@@ -110,22 +114,23 @@ const Page1 = () => {
         >
           <Card.Body>
             <Card.Title>Out Of Stocks</Card.Title>
-            <Card.Subtitle>{outOfStockCount}</Card.Subtitle> {/* Display out of stock count */}
+            <Card.Subtitle>{stock.filter(item => item.qty === 0).length}</Card.Subtitle> {/* Display out of stock count */}
           </Card.Body>
         </Card>
 
         <Card
           border="info"
-          style={{ width: "15rem", backgroundColor: "#64748b", color: "#fff", cursor: "pointer"  }}
+          style={{ width: "15rem", backgroundColor: "#64748b", color: "#fff", cursor: "pointer" }}
           onClick={() => handleCardClick("Re-Order Items")}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#688f9b")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#64748b")}          
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#64748b")}
         >
           <Card.Body>
             <Card.Title>Re-Order Items</Card.Title>
-            <Card.Subtitle>{reorderCount}</Card.Subtitle> {/* Display reorder count */}
+            <Card.Subtitle>{stock.filter(item => item.qty < item.reorderLevel).length}</Card.Subtitle> {/* Display reorder count */}
           </Card.Body>
         </Card>
+
         <Card
           border="info"
           style={{ width: "15rem", backgroundColor: "#64748b", color: "#fff" }}
@@ -137,6 +142,8 @@ const Page1 = () => {
           </Card.Body>
         </Card>
       </div>
+
+
 
       {/* Stock Table */}
       <div>
@@ -162,6 +169,7 @@ const Page1 = () => {
               <th>Qty</th>
               <th>Unit</th>
               <th>Color</th>
+              <th>Gauge</th>
               <th>Re-Order Level</th>
             </tr>
           </thead>
@@ -173,6 +181,7 @@ const Page1 = () => {
                 <td>{item.qty}</td>
                 <td>{item.unit}</td>
                 <td>{item.color}</td>
+                <td>{item.gauge}</td>
                 <td>{item.reorderLevel}</td>
                 <td>
                   <Button
@@ -218,10 +227,12 @@ const Page1 = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
+
             <Form.Group className="mb-3">
               <Form.Label>Product ID</Form.Label>
               <Form.Control type="text" value={formData.id} readOnly />
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Product Name</Form.Label>
               <Form.Control
@@ -240,6 +251,7 @@ const Page1 = () => {
                 ))}
               </Form.Control>
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Quantity</Form.Label>
               <Form.Control
@@ -249,6 +261,7 @@ const Page1 = () => {
                 disabled={modalAction === "Delete"}
               />
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Unit</Form.Label>
               <Form.Control
@@ -267,6 +280,7 @@ const Page1 = () => {
                 ))}
               </Form.Control>
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Color</Form.Label>
               <Form.Control
@@ -285,6 +299,30 @@ const Page1 = () => {
                 ))}
               </Form.Control>
             </Form.Group>
+
+
+            <Form.Group className="mb-3">
+              <Form.Label>Gauge</Form.Label>
+              <Form.Control
+                as="select"
+                value={formData.gauge}
+                onChange={(e) => setFormData({ ...formData, gauge: e.target.value })}
+                disabled={modalAction === "Delete"}
+              >
+                <option value="" disabled>
+                  Select a gauge
+                </option>
+                {gauges.map((gauge, index) => (
+                  <option key={index} value={gauge}>
+                    {gauge}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+
+
+
+
             <Form.Group className="mb-3">
               <Form.Label>Re-Order Level</Form.Label>
               <Form.Control
