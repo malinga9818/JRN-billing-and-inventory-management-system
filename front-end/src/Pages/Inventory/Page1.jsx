@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Card, Dropdown, DropdownButton, Table, Button, Modal, Form } from "react-bootstrap";
+import { Card, Dropdown, DropdownButton, Table, Button, Modal, Form, Breadcrumb } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid"; // Install using `npm install uuid`
 
 const Page1 = () => {
@@ -92,12 +93,12 @@ const Page1 = () => {
   const filteredStock = stock.filter((item) => {
     const matchesHeading =
       heading === "AVAILABLE STOCK"
-        ? true       
+        ? true
         : heading === "OUT OF STOCKS ITEMS"
-        ? item.qty === 0
-        : heading === "RE-ORDER ITEMS"
-        ? item.qty < item.reorderLevel
-        : true;
+          ? item.qty === 0
+          : heading === "RE-ORDER ITEMS"
+            ? item.qty < item.reorderLevel
+            : true;
 
     const matchesColor =
       selectedColor === "All Colors" ? true : item.color === selectedColor;
@@ -110,6 +111,18 @@ const Page1 = () => {
 
   return (
     <div className="p-3">
+
+      <div>
+        <Breadcrumb>
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
+            JRN Roofing
+          </Breadcrumb.Item>{"/"}
+          <Breadcrumb linkAs={Link} linkProps={{ to: "/inventory" }}>
+            Inventory Management
+          </Breadcrumb>
+        </Breadcrumb>
+      </div>
+
       {/* Inventory Summary */}
       <div className="mb-4 text-center d-flex justify-content-evenly">
         <Card

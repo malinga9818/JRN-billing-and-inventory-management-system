@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, Nav, Tab } from "react-bootstrap";
 import Page1 from "./Page1";
