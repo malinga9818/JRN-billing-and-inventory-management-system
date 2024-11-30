@@ -31,7 +31,7 @@ const BillingManagement = () => {
             </Nav>
           </Card.Header>
 
-          <Card.Body className="h-screen">
+          <Card.Body className="h-full">
             <Tab.Content>
               <Tab.Pane eventKey="BillingSummary">
                 <BiilingSummary setActiveKey={setActiveKey} />
