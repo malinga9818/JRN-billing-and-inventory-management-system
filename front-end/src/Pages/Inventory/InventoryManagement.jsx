@@ -13,8 +13,14 @@ function InventoryManagement() {
       <Tab.Container activeKey={activeKey} onSelect={(r) => setactiveKey(r)}>
         <Card>
           <Card.Header>
-            <Nav variant="tabs">
+          <h3 className="text-center">Inventory Management</h3>          
+            <Nav variant="tabs">              
               <Nav.Item>
+
+                <Nav.Link eventKey="Page1"> 
+                  Stock Details 
+                </Nav.Link>
+
                 <Nav.Link eventKey="Products">Page1</Nav.Link>
               </Nav.Item>
               <Nav.Item>
