@@ -10,15 +10,14 @@ dotenv.config();
 
 const PORT = 8000;
 const Mongo_url = process.env.MONGO_URL;
-mongoose.connect(Mongo_url).then(()=>{
+mongoose
+  .connect(Mongo_url)
+  .then(() => {
     console.log("Connected to the MongoDB");
-}).catch((error)=>{
-    console.log("Error connecting to MongoDB",error);
-});
-
-app.listen(8000, ()=>{
-    console.log("Server is running on port 8000");
-});
+  })
+  .catch((error) => {
+    console.log("Error connecting to MongoDB", error);
+  });
 
 mongoose
   .connect(Mongo_url)

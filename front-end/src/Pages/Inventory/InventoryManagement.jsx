@@ -14,7 +14,7 @@ function InventoryManagement({ setIsAuth }) {
       <Tab.Container activeKey={activeKey} onSelect={(r) => setactiveKey(r)}>
         <Card>
           <Card.Header>
-<<<<<<< HEAD
+
             <Nav variant="tabs" className="flex items-center justify-between">
               <div className="d-flex">
                 {" "}
@@ -27,13 +27,14 @@ function InventoryManagement({ setIsAuth }) {
                 <Nav.Item>
                   <Nav.Link eventKey="Page3">Page3</Nav.Link>
                 </Nav.Item>
+                
               </div>
               <div className="flex justify-content-end">
                 <Nav.Item>
                   <Header setIsAuth={setIsAuth} />
                 </Nav.Item>
               </div>
-=======
+              </Nav>
           <h3 className="text-center">Inventory Management</h3>          
             <Nav variant="tabs">              
               <Nav.Item>
@@ -50,7 +51,6 @@ function InventoryManagement({ setIsAuth }) {
               <Nav.Item>
                 <Nav.Link eventKey="Page3">Page3</Nav.Link>
               </Nav.Item>
->>>>>>> 27bb5838b929d94f17c98e059a79d18ae980ea5d
             </Nav>
           </Card.Header>
           <Card.Body>

@@ -8,11 +8,10 @@ function NavigationBar() {
     <>
       <Nav className="flex flex-col justify-between h-screen p-3 bg-slate-200">
         <div className="flex flex-col gap-12">
-<<<<<<< HEAD
-          <h5 className=" pt-6 text-2xl"><Link to={"/"}>JRN Roofing</Link></h5>
-=======
-          <h5 className="pt-6 text-2xl ">JRN Modern Roofing</h5>
->>>>>>> 27bb5838b929d94f17c98e059a79d18ae980ea5d
+          <h5 className=" pt-6 text-2xl">
+            <Link to={"/"}>JRN Roofing</Link>
+          </h5>
+
           <Nav.Link as={NavLink} to="/billing" ClassName="active-link gg">
             Billing
           </Nav.Link>
