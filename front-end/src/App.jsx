@@ -99,6 +99,7 @@ import SignIn from "./Components/SignIn";
 import SignUp from "./Components/SignUp";
 import NavigationBar from "./Components/NavigationBar";
 import BillingManagement from "./Pages/Billing/BillingManagement";
+import AllTrasnsactions from "./Pages/Billing/AllTrasnsactions";
 import InventoryManagement from "./Pages/Inventory/InventoryManagement";
 import ReportManagement from "./Pages/Reports/ReportManagement";
 import UsersManagement from "./Pages/Users/UsersManagement";
@@ -106,16 +107,14 @@ import Setting from "./Pages/Setting/SettingManagement";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 
 const App = () => {
-  // this for track if user is authenticated
+  // this for track user is authenticated or not
   const [isAuth, setIsAuth] = useState(false);
-
-  // check user is authenticated or not...
   const isAuthenticated = () => {
     const token = localStorage.getItem("token");
     if (!token) return false;
 
     try {
-      const payload = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+      const payload = JSON.parse(atob(token.split(".")[1])); // decode jwt payload
       const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
       return payload.exp > currentTime; // Check if token has expired
     } catch (err) {
@@ -144,9 +143,9 @@ const App = () => {
 
         {/* Main content */}
         <div className="flex-1">
-          <div className="p-4">
+          <div className="d-flex flex-column vh-100">
             <Routes>
-              {/* If not authenticated, redirect to SignIn */}
+              {/* If not authenticated user redirect to signin pagq */}
               {!isAuth ? (
                 <>
                   <Route
@@ -162,12 +161,32 @@ const App = () => {
                     path="/"
                     element={<Dashboard setIsAuth={setIsAuth} />}
                   />
-                  <Route path="/billing" element={<BillingManagement />} />
-                  <Route path="/inventory" element={<InventoryManagement />} />
-                  <Route path="/report" element={<ReportManagement />} />
-                  <Route path="/user" element={<UsersManagement />} />
-                  <Route path="/setting" element={<Setting />} />
-                  <Route path="*" element={<Navigate to="/" />} />
+                  <Route
+                    path="/billing"
+                    element={<BillingManagement setIsAuth={setIsAuth} />}
+                  />
+                  {/* <Route path="/all-trasnsactions" element={<AllTrasnsactions />} /> */}
+                  <Route
+                    path="/inventory"
+                    element={<InventoryManagement setIsAuth={setIsAuth} />}
+                  />
+                  <Route
+                    path="/report"
+                    element={<ReportManagement setIsAuth={setIsAuth} />}
+                  />
+                  <Route
+                    path="/user"
+                    element={<UsersManagement setIsAuth={setIsAuth} />}
+                  />
+                  <Route
+                    path="/setting"
+                    element={<Setting />}
+                    setIsAuth={setIsAuth}
+                  />
+                  <Route
+                    path="*"
+                    element={<Navigate to="/" setIsAuth={setIsAuth} />}
+                  />
                 </>
               )}
             </Routes>

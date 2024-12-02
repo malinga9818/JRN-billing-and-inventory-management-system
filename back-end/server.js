@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 dotenv.config();
 
+const PORT = 8000;
 const Mongo_url = process.env.MONGO_URL;
 mongoose
   .connect(Mongo_url)
@@ -18,12 +19,12 @@ mongoose
     console.log("Error connecting to MongoDB", error);
   });
 
-app.listen(8000, () => {
-  console.log("Server is running on port 5000");
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 import inventoryRoutes from "./routers/inventoryRoutes.js";
 app.use("/inventory", inventoryRoutes);
 
 import authRoutes from "./routers/authRoutes.js";
-app.use("/api/auth", authRoutes); 
+app.use("/api/auth", authRoutes);
