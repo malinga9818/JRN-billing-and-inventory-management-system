@@ -13,7 +13,7 @@ function NavigationBar() {
             className=" font-bold text-4xl bg-gradient-to-r from-red-400 via-red-600 to-red-500 bg-clip-text text-transparent"
           >
             JRN <br />{" "}
-            <span className="text-2xl font-bold relative left-10 bottom-4 bg-gradient-to-r from-yellow-500 via-yellow-100 to-yellow-600 bg-clip-text text-transparent">
+            <span className="text-2xl hidden md:inline font-bold relative left-10 bottom-4 bg-gradient-to-r from-yellow-500 via-yellow-100 to-yellow-600 bg-clip-text text-transparent">
               Roofing
             </span>
           </Link>

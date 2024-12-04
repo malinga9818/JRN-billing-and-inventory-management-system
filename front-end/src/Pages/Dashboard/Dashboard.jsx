@@ -114,32 +114,25 @@ const Dashboard = ({ setIsAuth }) => {
             <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
               <h5 className="text-blue-600 font-semibold">Sales</h5>
               <p className="text-4xl font-bold">{summaryData.Sales}</p>{" "}
-              {/* Using friend's data */}
             </Card>
           </Col>
           <Col lg={3} md={6} sm={12} className="">
             <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
               <h5 className="text-green-600 font-semibold">Reports</h5>
               <p className="text-4xl font-bold">{summaryData.Reports}</p>{" "}
-              {/* Using friend's data */}
             </Card>
           </Col>
           <Col lg={3} md={6} sm={12} className="">
             <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
               <h5 className="text-yellow-600 font-semibold">Out Of Stock</h5>
-              <p className="text-4xl font-bold">
-                {summaryData.Out}
-              </p>{" "}
-              {/* Using friend's data */}
+              <p className="text-4xl font-bold">{summaryData.Out}</p>{" "}
             </Card>
           </Col>
         </Row>
       </Card>
       <Carousels />
       <h5 className="text-blue-800">Recent Transactions</h5>
-      {/* <div className="d-flex justify-content-between"> */}
       <Row className="mt-4 d-flex justify-content-between">
-        {/* Table Column */}
         <Col lg={10}>
           <Table bordered striped hover responsive>
             <thead>
@@ -169,7 +162,6 @@ const Dashboard = ({ setIsAuth }) => {
           </Table>
         </Col>
 
-        {/* Button Column */}
         <Col lg={2}>
           <div className="d-flex flex-column gap-3">
             <Button variant="primary">Add New Invoice</Button>
@@ -178,7 +170,6 @@ const Dashboard = ({ setIsAuth }) => {
         </Col>
       </Row>
     </div>
-    // </div>
   );
 };
 

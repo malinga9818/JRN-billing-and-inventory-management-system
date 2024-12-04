@@ -145,7 +145,8 @@
 // export default SignIn;
 
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import "./Signin.css";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // icons from react-icons
@@ -153,7 +154,9 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"; // icons from react-icons
 function SignIn({ setIsAuth }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // this state for password show and hide
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showModal, setShowModal] = useState(false); //to loging err medel visibility
+  const [modalMessage, setModalMessage] = useState(""); // state for modal message
 
   const navigate = useNavigate();
 
@@ -168,16 +171,21 @@ function SignIn({ setIsAuth }) {
         }
       );
       localStorage.setItem("token", response.data.token); // Save token
-      setIsAuth(true); // this update auth state immediately when recive token
-      navigate("/"); // redirect to dashboard if un ans pw correct
+      setIsAuth(true); // Update auth state
+      navigate("/"); // Redirect to dashboard
     } catch (err) {
-      console.err(err.response?.data.message);
-      alert("Invalid credentials. Please try again.");
+      console.error(err);
+      setModalMessage("Invalid credentials. Please try again."); // set modal message
+      setShowModal(true); //
     }
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); // close modal
   };
 
   return (
@@ -224,7 +232,7 @@ function SignIn({ setIsAuth }) {
               </Form.Label>
               <div className="relative">
                 <Form.Control
-                  type={showPassword ? "text" : "password"} // toggle input type
+                  type={showPassword ? "text" : "password"} // Toggle input type
                   name="password"
                   placeholder="*********"
                   className="p-2 w-full border border-gray-300 rounded-md"
@@ -234,7 +242,7 @@ function SignIn({ setIsAuth }) {
                 />
                 <div
                   className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
-                  onClick={togglePasswordVisibility} // toggle visibility on click
+                  onClick={togglePasswordVisibility}
                 >
                   {showPassword ? (
                     <FaEyeSlash size={20} />
@@ -245,7 +253,7 @@ function SignIn({ setIsAuth }) {
               </div>
             </Form.Group>
             <Button
-              className="py-2 bg-gradient-to-r from-indigo-700 via -indigo-400 to-indigo-700 rounded-lg text-white"
+              className="py-2 bg-gradient-to-r from-indigo-700 via-indigo-400 to-indigo-700 rounded-lg text-white"
               type="submit"
             >
               Sign In
@@ -259,6 +267,24 @@ function SignIn({ setIsAuth }) {
           </div>
         </div>
       </div>
+
+      {/* this for error alert when user try to login with incorrect us & pw */}
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        className="custom-modal "
+        
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Logon Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

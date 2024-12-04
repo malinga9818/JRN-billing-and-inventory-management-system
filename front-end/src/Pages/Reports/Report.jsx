@@ -19,7 +19,6 @@ const summaryData = {
   finance: 2,
 };
 
-// Initial reports with unique IDs
 const initialReports = [
   {
     id: 1,
@@ -81,7 +80,7 @@ function Report() {
       setSelectedReportIndex(index);
     } else {
       setFormData({
-        id: reports.length + 1, // Assign a new ID for new reports
+        id: reports.length + 1, // assign a new id for new reports
         period: "",
         type: "",
         date: new Date().toISOString().split("T")[0], // Current date
@@ -89,7 +88,7 @@ function Report() {
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
-        }), // Current time in 24-hour format
+        }), // current time in 24-hour format
       });
       setSelectedReportIndex(null);
     }
@@ -217,7 +216,6 @@ function Report() {
         <Button variant="primary">View All Reports</Button>
       </div>
 
-      {/* Modal for Add/Edit/Delete */}
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>

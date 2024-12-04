@@ -7,10 +7,10 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
   
   const invoiceRef = useRef();
 
-  const userId = "dilshanp5400@gmail.com"; // Replace with actual user email
-  const serviceId = "service_zk5k8nm"; // Replace with your EmailJS service ID
-  const templateId = "template_k9i0wkf"; // Replace with your EmailJS template ID
-  const publicKey = "B0On3JI3DI994F4QV"; // Replace with your EmailJS public key
+  const userId = "dilshanp5400@gmail.com"; // put actual user email
+  const serviceId = "service_zk5k8nm"; // emailJS service id
+  const templateId = "template_k9i0wkf"; // emailJS template  id
+  const publicKey = "B0On3JI3DI994F4QV"; // emailJS public key
 
   const currentDate = new Date().toLocaleDateString();
   const currentTime = new Date().toLocaleTimeString();
@@ -86,7 +86,7 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
             </div>
           </div>
 
-          {/* Customer Information */}
+          {/* Customer info section*/}
           <div className="mb-4">
             <h5>Customer Details</h5>
             <p>

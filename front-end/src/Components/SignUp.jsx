@@ -3,7 +3,7 @@
 // import { Link } from "react-router-dom";
 
 // function SignUp() {
-  
+
 //   return (
 //     <div className="bg-blue-950 lg:bg-black h-screen">
 //       <div className="flex items-center justify-center h-full text-white relative">
@@ -75,35 +75,48 @@
 
 // export default SignUp;
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import "./Signin.css";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showModal, setShowModal] = useState(false); // To control modal visibility
+  const [modalMessage, setModalMessage] = useState(""); // State for modal message
+
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/auth/sign-up", {
-        username,
-        password,
-        role,
-      });
-      alert(response.data.message);
+      const response = await axios.post(
+        "http://localhost:8000/api/auth/sign-up",
+        {
+          username,
+          password,
+          role,
+        }
+      );
+      console.log(response.data);
+      setModalMessage("Successfully registered, Please sign in."); // Set modal message when user registered
+      setShowModal(true); // Show modal on success
       navigate("/sign-in");
     } catch (error) {
-      alert(error.response?.data?.message || "Something went wrong!");
+      setModalMessage("User  name already exists."); // Set modal message when user exists
+      setShowModal(true);
     }
   };
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); // Close modal
   };
 
   return (
@@ -158,11 +171,15 @@ function SignUp() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <div 
+                <div
                   className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
-                  onClick={togglePasswordVisibility} // Toggle visibility on click
+                  onClick={togglePasswordVisibility} // toggle visibility on click
                 >
-                  {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                  {showPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
                 </div>
               </div>
             </Form.Group>
@@ -181,6 +198,22 @@ function SignUp() {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        className="custom-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Logon Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import Carousel from "react-bootstrap/Carousel";
-import { Container, Row, Col } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import { Container, Row, Col, Carousel } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-// Images
 import roof1 from "../../assets/roofing1.jpeg";
 import roof2 from "../../assets/roofing2.jpeg";
-import roof3 from "../../assets/roofing3.jpeg";
+import roof3 from "../../assets/roofing3.jpeg"
 
-// Talks data
 const talks = [
   {
     id: 1,
     title: "Secure Your Future with Amano Roofing...",
-
-    description: " Built for Safety, Engineered for Strength!",
+    description: "Built for Safety, Engineered for Strength!",
     img: roof1,
   },
   {
@@ -39,40 +37,67 @@ function Carousels() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
-    <Container fluid className="py-4 bg-light">
+    <Container fluid className="py-2 bg-light">
       <Row>
-        {/* Carousel Section */}
         <Col lg={10} md={12}>
-          <Carousel interval={2000} fade>
-            {talks.map((talk) => (
-              <Carousel.Item key={talk.id}>
-                {/* Image */}
-                <img
-                  className="d-block w-100 rounded"
-                  src={talk.img}
-                  alt={talk.title}
-                  style={{ height: "200px", objectFit: "cover" }}
-                />
-                {/* Caption */}
-                <Carousel.Caption className="bg-dark bg-opacity-50 p-3 rounded">
-                  <h3>{talk.title}</h3>
-                  <p>{talk.description}</p>
-                </Carousel.Caption>
-              </Carousel.Item>
-            ))}
-          </Carousel>
+          <div className="bg-light">
+            <Carousel interval={3000} controls={true} indicators={true}>
+              {talks.map((talk) => (
+                <Carousel.Item key={talk.id}>
+                  <Row className="d-flex align-items-center justify-content-between">
+                    <Col
+                      md={4}
+                      className="d-flex flex-column align-items-center"
+                    >
+                      <img
+                        src={talk.img}
+                        alt={talk.title}
+                        className="img-fluid rounded-lg mb-4"
+                        style={{ height: "150px", objectFit: "cover" }}
+                        data-aos="fade-up"
+                      />
+                    </Col>
+                    <Col
+                      md={8}
+                      className="d-flex flex-column justify-content-center align-items-center"
+                    >
+                      <h1
+                        data-aos="fade-up"
+                        data-aos-duration="500"
+                        className="text-3xl font-weight-bold mb-2"
+                      >
+                        {talk.title}
+                      </h1>
+                      <p
+                        data-aos="fade-up"
+                        data-aos-duration="500"
+                        data-aos-delay="100"
+                        className="lead text-2xl"
+                      >
+                        {talk.description}
+                      </p>
+                    </Col>
+                  </Row>
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </div>
         </Col>
 
         {/* Calendar and Clock Section */}
         <Col lg={2} md={12}>
           <div
-            className="d-flex flex-column align-items-center bg-white rounded shadow p-4 h-100"
+            className="d-flex flex-column align-items-center  bg-gray-800 rounded shadow p-4 h-100"
             style={{ minHeight: "200px" }}
           >
-            {/* Real-Time Clock */}
-            <div className="text-center">
-              <h2 className="text-primary">
+            {/* real working time */}
+            <div className="text-center text-light">
+              <h2>
                 {currentTime.toLocaleTimeString()}
               </h2>
               <p>{currentTime.toLocaleDateString()}</p>

@@ -92,12 +92,6 @@ function User() {
         </Breadcrumb>
       </div>
 
-      {/* Header */}
-      {/* <h2 className="mb-2 text-center">
-                <b>USER MANAGEMENT</b>
-            </h2> */}
-
-      {/* Add User Button */}
       <div className="mb-2 d-flex justify-content-between">
         <h4>All Users</h4>
         <Button variant="primary" onClick={() => handleModalOpen("Add")}>
@@ -105,7 +99,6 @@ function User() {
         </Button>
       </div>
 
-      {/* User Table */}
       <Table bordered hover>
         <thead>
           <tr>
@@ -158,7 +151,6 @@ function User() {
         </div>
       )}
 
-      {/* Modal */}
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>

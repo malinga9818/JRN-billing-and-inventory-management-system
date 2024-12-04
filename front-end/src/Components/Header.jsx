@@ -28,7 +28,7 @@ function Header({ showSearch = true, setIsAuth }) {
             <Form.Control
               type="text"
               placeholder="Search"
-              className="w-60 rounded-pill ps-5" // Use Bootstrap classes for rounded corners and padding
+              className="w-60 rounded-pill ps-5" 
             />
             <AiOutlineSearch
               size={20}
