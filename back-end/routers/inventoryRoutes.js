@@ -10,4 +10,4 @@ router.post("/products", addProduct);
 router.get("/products/category/:category", getProductsByCategory);
 router.put("/products/:id", updateStock);
 
-export default  router;
+export default router;

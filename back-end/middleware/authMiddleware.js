@@ -41,7 +41,7 @@
 import jwt from "jsonwebtoken";
 
 const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1]; // Extract token from Authorization header
+  const token = req.headers.authorization?.split(" ")[1]; // xxtract token from Authorization header
 
   if (!token) return res.status(401).json({ message: "Unauthorized" });
 

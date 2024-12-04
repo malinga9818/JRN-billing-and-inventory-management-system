@@ -108,7 +108,6 @@
 
 //*************************************************** */
 
-
 // import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import axios from "axios";
@@ -149,27 +148,36 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // icons from react-icons
 
 function SignIn({ setIsAuth }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // this state for password show and hide
 
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/auth/sign-in", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/auth/sign-in",
+        {
+          username,
+          password,
+        }
+      );
       localStorage.setItem("token", response.data.token); // Save token
-      setIsAuth(true); // Update the auth state immediately
-      navigate("/"); // Redirect to dashboard
+      setIsAuth(true); // this update auth state immediately when recive token
+      navigate("/"); // redirect to dashboard if un ans pw correct
     } catch (err) {
-      console.error(err.response?.data.message);
+      console.err(err.response?.data.message);
       alert("Invalid credentials. Please try again.");
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -177,7 +185,7 @@ function SignIn({ setIsAuth }) {
       <div className="flex items-center justify-center h-full text-white relative">
         <div className="w-[500px] h-[600px] bg-blue-950 opacity-70 rounded-lg hidden lg:inline relative left-20">
           <div className="flex flex-col justify-between h-full p-8">
-            <h1 className="text-3xl font-semibold relative top-2">
+            <h1 className="text-3xl font-semibold relative top-1">
               <span className="text-5xl font-bold bg-gradient-to-r from-red-800 via-red-400 to-red-800 bg-clip-text text-transparent">
                 JRN{" "}
               </span>
@@ -197,7 +205,7 @@ function SignIn({ setIsAuth }) {
           <h3 className="text-center text-2xl font-bold mb-2">Sign In</h3>
           <Form className="flex flex-col gap-4" onSubmit={handleSignIn}>
             <Form.Group controlId="username">
-              <Form.Label className="block mb-1 text-sm font-medium text-gray-700">
+              <Form.Label className="mb-1 text-sm font-medium text-gray-700">
                 User Name
               </Form.Label>
               <Form.Control
@@ -211,21 +219,33 @@ function SignIn({ setIsAuth }) {
               />
             </Form.Group>
             <Form.Group controlId="password">
-              <Form.Label className="block mb-1 text-sm font-medium text-gray-700">
+              <Form.Label className="mb-1 text-sm font-medium text-gray-700">
                 Password
               </Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                placeholder="*********"
-                className="p-2 w-full border border-gray-300 rounded-md"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="relative">
+                <Form.Control
+                  type={showPassword ? "text" : "password"} // toggle input type
+                  name="password"
+                  placeholder="*********"
+                  className="p-2 w-full border border-gray-300 rounded-md"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <div
+                  className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
+                  onClick={togglePasswordVisibility} // toggle visibility on click
+                >
+                  {showPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
+                </div>
+              </div>
             </Form.Group>
             <Button
-              className="py-2 bg-gradient-to-r from-indigo-700 via-indigo-400 to-indigo-700 rounded-lg text-white"
+              className="py-2 bg-gradient-to-r from-indigo-700 via -indigo-400 to-indigo-700 rounded-lg text-white"
               type="submit"
             >
               Sign In

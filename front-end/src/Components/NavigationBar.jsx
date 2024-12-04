@@ -5,33 +5,84 @@ import "./NavigationBar.css";
 
 function NavigationBar() {
   return (
-    <>
-      <Nav className="flex flex-col justify-between h-screen p-3 bg-slate-200">
-        <div className="flex flex-col gap-12">
-          <h5 className=" pt-6 text-2xl">
-            <Link to={"/"}>JRN Roofing</Link>
-          </h5>
+    <Nav className="flex flex-col justify-between h-full p-4 bg-gray-800">
+      <div className="flex flex-col gap-12">
+        <h6>
+          <Link
+            to="/"
+            className=" font-bold text-4xl bg-gradient-to-r from-red-400 via-red-600 to-red-500 bg-clip-text text-transparent"
+          >
+            JRN <br />{" "}
+            <span className="text-2xl font-bold relative left-10 bottom-4 bg-gradient-to-r from-yellow-500 via-yellow-100 to-yellow-600 bg-clip-text text-transparent">
+              Roofing
+            </span>
+          </Link>
+        </h6>
 
-          <Nav.Link as={NavLink} to="/billing" ClassName="active-link gg">
-            Billing
-          </Nav.Link>
-          <Nav.Link as={NavLink} to="/inventory" ClassName="active-link">
-            Inventory
-          </Nav.Link>
-          <Nav.Link as={NavLink} to="/report" ClassName="active-link">
-            Reports
-          </Nav.Link>
-          <Nav.Link as={NavLink} to="/user" ClassName="active-link">
-            User
-          </Nav.Link>
-        </div>
-        <div className="relative bottom-10 ">
-          <Nav.Link as={NavLink} to="/setting" ClassName="active-link">
-            Setting
-          </Nav.Link>
-        </div>
-      </Nav>
-    </>
+        <NavLink
+          to="/billing"
+          className={({ isActive }) =>
+            `text-lg transition-all duration-300 ${
+              isActive
+                ? "bg-white text-gray-800 font-bold px-4 py-2 rounded-md no-underline"
+                : "text-white no-underline"
+            }`
+          }
+        >
+          Billing
+        </NavLink>
+        <NavLink
+          to="/inventory"
+          className={({ isActive }) =>
+            `text-lg transition-all duration-300 ${
+              isActive
+                ? "bg-white text-gray-800 font-bold px-2 py-2 rounded-md no-underline"
+                : "text-white no-underline"
+            }`
+          }
+        >
+          Inventory
+        </NavLink>
+        <NavLink
+          to="/report"
+          className={({ isActive }) =>
+            `text-lg transition-all duration-300 ${
+              isActive
+                ? "bg-white text-gray-800 font-bold px-3 py-2 rounded-md no-underline"
+                : "text-white no-underline"
+            }`
+          }
+        >
+          Reports
+        </NavLink>
+        <NavLink
+          to="/user"
+          className={({ isActive }) =>
+            `text-lg transition-all duration-300 ${
+              isActive
+                ? "bg-white text-gray-800 font-bold px-4 py-2 rounded-md no-underline"
+                : "text-white no-underline"
+            }`
+          }
+        >
+          User
+        </NavLink>
+      </div>
+      <div className="relative bottom-10">
+        <NavLink
+          to="/setting"
+          className={({ isActive }) =>
+            `text-lg transition-all duration-300 ${
+              isActive
+                ? "bg-white text-gray-800 font-bold px-3 py-2 rounded-md no-underline"
+                : "text-white no-underline"
+            }`
+          }
+        >
+          Setting
+        </NavLink>
+      </div>
+    </Nav>
   );
 }
 

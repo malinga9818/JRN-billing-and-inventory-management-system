@@ -10,7 +10,7 @@ const BillingManagement = ({ setIsAuth }) => {
   const [activeKey, setActiveKey] = useState("BillingSummary");
 
   return (
-    <div className="d-flex flex-column vh-100">
+    <div className="d-flex flex-column ">
       <Tab.Container activeKey={activeKey} onSelect={(k) => setActiveKey(k)}>
         <Card>
           <Card.Header>
@@ -31,6 +31,8 @@ const BillingManagement = ({ setIsAuth }) => {
                   </Nav.Link>
                 </Nav.Item>
               </div>
+              <h3 className="text-center">Billing Management</h3>
+
               <div className="d-flex justify-content-end">
                 <Nav.Item>
                   <Header setIsAuth={setIsAuth} />

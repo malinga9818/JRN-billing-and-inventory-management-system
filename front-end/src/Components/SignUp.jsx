@@ -74,16 +74,17 @@
 // }
 
 // export default SignUp;
-
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
+  const [showPassword, setShowPassword] = useState(false); 
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
@@ -101,10 +102,14 @@ function SignUp() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="bg-blue-950 lg:bg-black h-screen">
       <div className="flex items-center justify-center h-full text-white relative">
-        <div className="w-[500px] h-[600px] bg-blue-950 opacity-70 rounded-lg hidden lg:inline  relative left-20">
+        <div className="w-[500px] h-[600px] bg-blue-950 opacity-70 rounded-lg hidden lg:inline relative left-20">
           <div className="flex flex-col justify-between h-full p-8">
             <h1 className="text-3xl font-semibold relative top-2">
               <span className="text-5xl font-bold bg-gradient-to-r from-red-800 via-red-400 to-red-800 bg-clip-text text-transparent">
@@ -143,15 +148,23 @@ function SignUp() {
               <Form.Label className="block mb-1 text-sm font-medium text-gray-700">
                 Password
               </Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                placeholder="*********"
-                className="p-2 w-full border border-gray-300 rounded-md"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="relative">
+                <Form.Control
+                  type={showPassword ? "text" : "password"} // Toggle input type
+                  name="password"
+                  placeholder="*********"
+                  className="p-2 w-full border border-gray-300 rounded-md"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <div 
+                  className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
+                  onClick={togglePasswordVisibility} // Toggle visibility on click
+                >
+                  {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                </div>
+              </div>
             </Form.Group>
             <Button
               className="py-2 bg-gradient-to-r from-indigo-700 via-indigo-400 to-indigo-700 rounded-lg text-white"

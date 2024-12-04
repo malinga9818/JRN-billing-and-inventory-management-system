@@ -1037,8 +1037,10 @@ function BillingInvoice() {
 
   const [showDataTable, setShowDataTable] = useState(false);
   return (
-    <div className="contar ">
-      <Breadcrumb>
+    <div className="contariner ">
+            {" "}
+
+      <Breadcrumb className="ml-4">
         <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
           JRN
         </Breadcrumb.Item>

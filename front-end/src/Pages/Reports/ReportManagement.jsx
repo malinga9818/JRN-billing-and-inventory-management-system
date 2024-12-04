@@ -1,46 +1,40 @@
 import React, { useState } from "react";
 import { Card, Nav, Tab } from "react-bootstrap";
-import Page1 from "./Page1";
-import Page2 from "./Page2";
-import Page3 from "./Page3";
+import Report from "./report";
+import Header from "../../Components/Header";
 
-function ReportManagement() {
-  const [activeKey, setactiveKey] = useState("Page1");
+function ReportManagement({ setIsAuth }) {
+  const [activeKey, setactiveKey] = useState("Report");
 
   return (
     <div>
-      <Tab.Container activeKey={activeKey} onSelect={(r)=>setactiveKey(r)}>
+      <Tab.Container activeKey={activeKey} onSelect={(r) => setactiveKey(r)}>
         <Card>
           <Card.Header>
-            <Nav variant="tabs">
-              <Nav.Item>
-                <Nav.Link eventKey="Page1"> 
-                  Page1 
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="Page2"> 
-                  Page2
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="Page3"> 
-                  Page3
-                </Nav.Link>
-              </Nav.Item>
+            {" "}
+            <Nav
+              variant="tabs "
+              className="d-flex align-items-center justify-content-between"
+            >
+              <div className="d-flex">
+                <Nav.Item>
+                  <Nav.Link eventKey="Report">Reports</Nav.Link>
+                </Nav.Item>
+              </div>
+              <h3 className="d-flex pl-10 ">Report Management</h3>
+
+              <div className="d-flex justify-content-end">
+                <Nav.Item>
+                  <Header setIsAuth={setIsAuth} />
+                </Nav.Item>
+              </div>
             </Nav>
           </Card.Header>
           <Card.Body>
             <Tab.Content>
-              <Tab.Pane eventKey="Page1">
-                <Page1 setactiveKey={setactiveKey}/>
+              <Tab.Pane eventKey="Report">
+                <Report setactiveKey={setactiveKey} />
               </Tab.Pane>
-              <Tab.Pane eventKey="Page2">
-                <Page2 setactiveKey={setactiveKey}/>
-              </Tab.Pane>
-              <Tab.Pane eventKey="Page3">
-                <Page3 setactiveKey={setactiveKey}/>
-                </Tab.Pane>
             </Tab.Content>
           </Card.Body>
         </Card>

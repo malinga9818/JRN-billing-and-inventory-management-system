@@ -65,45 +65,42 @@ const dummyTransaction = [
 function BiilingSummary() {
   return (
     <div className="container ">
-      <Breadcrumb className="flex items-center">
+      {" "}
+      <Breadcrumb>
         <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
-          JRN{" "}
+          JRN
         </Breadcrumb.Item>
         <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/billing" }}>
           Billing
         </Breadcrumb.Item>
-        <Breadcrumb.Item active >
-          Overview
-        </Breadcrumb.Item>
+        <Breadcrumb.Item active>Overview</Breadcrumb.Item>
       </Breadcrumb>
-
       <Card className="mx-2">
-        <Row className="text-center  bg-light p-2 rounded-lg ">
-          <Col style={{ borderRight: "1px solid #ddd" }} lg={3}>
-            <div className="rounded p-3 text-$indigo-200 flex items-center justify-center gap-3">
+        <Row className="text-center bg-light p-2 rounded-lg">
+          <Col lg={3} md={6} sm={12} className="">
+            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
               <h5>
                 <Dropdowns />
-                
               </h5>
-            </div>
+            </Card>
           </Col>
-          <Col style={{ borderRight: "1px solid #ddd" }} lg={3}>
-            <div className="rounded p-3">
-              <h5>Sales</h5>
-              <p>{summaryData.sales}</p>
-            </div>
+          <Col lg={3} md={6} sm={12} className="">
+            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
+              <h5 className="text-blue-600 font-semibold">Sales</h5>
+              <p className="text-4xl font-bold">{summaryData.sales}</p>
+            </Card>
           </Col>
-          <Col style={{ borderRight: "1px solid #ddd" }} lg={3}>
-            <div className="rounded p-3">
-              <h5>Revenue</h5>
-              <p>{summaryData.revenue}</p>
-            </div>
+          <Col lg={3} md={6} sm={12} className="">
+            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
+              <h5 className="text-green-600 font-semibold">Revenue</h5>
+              <p className="text-4xl font-bold">{summaryData.revenue}</p>
+            </Card>
           </Col>
-          <Col>
-            <div className="rounded p-3" lg={3}>
-              <h5>New Customers</h5>
-              <p>{summaryData.newCustomers}</p>
-            </div>
+          <Col lg={3} md={6} sm={12} className="">
+            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
+              <h5 className="text-yellow-600 font-semibold">New Customers</h5>
+              <p className="text-4xl font-bold">{summaryData.newCustomers}</p>
+            </Card>
           </Col>
         </Row>
       </Card>
@@ -113,7 +110,6 @@ function BiilingSummary() {
           <Button variant="primary">Add New Invoice</Button>
         </div>
       </div>
-
       <Table bordered hover responsive>
         <thead>
           <tr>

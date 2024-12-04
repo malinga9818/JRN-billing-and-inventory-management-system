@@ -10,14 +10,6 @@ dotenv.config();
 
 const PORT = 8000;
 const Mongo_url = process.env.MONGO_URL;
-mongoose
-  .connect(Mongo_url)
-  .then(() => {
-    console.log("Connected to the MongoDB");
-  })
-  .catch((error) => {
-    console.log("Error connecting to MongoDB", error);
-  });
 
 mongoose
   .connect(Mongo_url)

@@ -89,6 +89,7 @@
 // export default App;import React from "react";
 
 import React, { useEffect, useState } from "react";
+import "./App.css";
 import {
   BrowserRouter as Router,
   Routes,
@@ -112,7 +113,6 @@ const App = () => {
   const isAuthenticated = () => {
     const token = localStorage.getItem("token");
     if (!token) return false;
-
     try {
       const payload = JSON.parse(atob(token.split(".")[1])); // decode jwt payload
       const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
@@ -142,10 +142,10 @@ const App = () => {
         )}
 
         {/* Main content */}
-        <div className="flex-1">
+        <div className="flex-1 h-screen">
           <div className="d-flex flex-column vh-100">
             <Routes>
-              {/* If not authenticated user redirect to signin pagq */}
+              {/* If not authenticated user redirect to signin paga */}
               {!isAuth ? (
                 <>
                   <Route

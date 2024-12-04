@@ -40,8 +40,7 @@ import Header from "../../Components/Header";
 
 const summaryData = {
   Sales: "17",
-  Revenue: "LKR 147, 987.00",
-  Average: "LKR 8 703.11",
+  Reports: "2",
   Out: 15,
 };
 
@@ -92,7 +91,7 @@ const Dashboard = ({ setIsAuth }) => {
   return (
     <div className="px-2">
       <div className="d-flex align-item-center justify-content-between mb-2">
-        <Breadcrumb>
+        <Breadcrumb className="ml-4">
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
             JRN{" "}
           </Breadcrumb.Item>
@@ -101,47 +100,44 @@ const Dashboard = ({ setIsAuth }) => {
         <div className="flex justify-content-end">
           <Header setIsAuth={setIsAuth} showSearch={false} />
         </div>
-      </div>
-
-      <Card className="mx-4">
-        <Row className="text-center bg-light p-2 rounded-lg ">
-          <Col style={{ borderRight: "1px solid #ddd" }} lg={3}>
-            <div className="rounded p-3 text-$indigo-200 flex items-center justify-center gap-3">
+      </div>{" "}
+      <Card className="mx-2">
+        <Row className="text-center bg-light p-2 rounded-lg">
+          <Col lg={3} md={6} sm={12} className="">
+            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
               <h5>
                 <Dropdowns />
               </h5>
-            </div>
+            </Card>
           </Col>
-          <Col style={{ borderRight: "1px solid #ddd" }} lg={2}>
-            <div className="rounded p-3">
-              <h5>Sales</h5>
-              <p>{summaryData.Sales}</p>
-            </div>
+          <Col lg={3} md={6} sm={12} className="">
+            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
+              <h5 className="text-blue-600 font-semibold">Sales</h5>
+              <p className="text-4xl font-bold">{summaryData.Sales}</p>{" "}
+              {/* Using friend's data */}
+            </Card>
           </Col>
-          <Col style={{ borderRight: "1px solid #ddd" }} lg={2}>
-            <div className="rounded p-3">
-              <h5>Revenue</h5>
-              <p>{summaryData.Revenue}</p>
-            </div>
+          <Col lg={3} md={6} sm={12} className="">
+            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
+              <h5 className="text-green-600 font-semibold">Reports</h5>
+              <p className="text-4xl font-bold">{summaryData.Reports}</p>{" "}
+              {/* Using friend's data */}
+            </Card>
           </Col>
-          <Col style={{ borderRight: "1px solid #ddd" }} lg={2}>
-            <div className="rounded p-3">
-              <h5>Average order value</h5>
-              <p>{summaryData.Average}</p>
-            </div>
-          </Col>
-          <Col lg={2}>
-            <div className="rounded p-3 ">
-              <h5>Out Of Stock</h5>
-              <p>{summaryData.Out}</p>
-            </div>
+          <Col lg={3} md={6} sm={12} className="">
+            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
+              <h5 className="text-yellow-600 font-semibold">Out Of Stock</h5>
+              <p className="text-4xl font-bold">
+                {summaryData.Out}
+              </p>{" "}
+              {/* Using friend's data */}
+            </Card>
           </Col>
         </Row>
       </Card>
       <Carousels />
       <h5 className="text-blue-800">Recent Transactions</h5>
       {/* <div className="d-flex justify-content-between"> */}
-
       <Row className="mt-4 d-flex justify-content-between">
         {/* Table Column */}
         <Col lg={10}>

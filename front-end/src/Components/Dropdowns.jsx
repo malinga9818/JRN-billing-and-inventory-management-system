@@ -1,19 +1,17 @@
-import React from 'react';
-import { Dropdown } from 'react-bootstrap';
-import { IoMdArrowDropdown } from 'react-icons/io';
+import React, { useState } from "react";
+import { Dropdown } from "react-bootstrap";
 
 const Dropdowns = () => {
-  const [selectedOption, setSelectedOption] = React.useState('Today');
+  const [selectedOption, setSelectedOption] = useState("Today");
 
   const handleSelect = (eventKey) => {
     setSelectedOption(eventKey);
   };
 
   return (
-    <div className="rounded p-3 text-indigo-200 flex items-center justify-center gap-3">
+    <div className="rounded p-3 text-dark flex items-center justify-center gap-3">
       <Dropdown onSelect={handleSelect}>
-        <Dropdown.Toggle variant="light" id="dropdown-basic">
-        </Dropdown.Toggle>
+        <Dropdown.Toggle variant="light" id="dropdown-basic"></Dropdown.Toggle>
 
         <Dropdown.Menu>
           <Dropdown.Item eventKey="Today">Today</Dropdown.Item>
@@ -21,7 +19,7 @@ const Dropdowns = () => {
           <Dropdown.Item eventKey="Month">Month</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-      <p className="text-4xl">{selectedOption}</p>
+      <p className="text-3xl">{selectedOption}</p>
     </div>
   );
 };

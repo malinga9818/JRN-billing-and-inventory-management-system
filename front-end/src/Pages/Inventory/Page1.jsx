@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Card, Dropdown, DropdownButton, Table, Button, Modal, Form, Breadcrumb } from "react-bootstrap";
+import {
+  Card,
+  Dropdown,
+  DropdownButton,
+  Table,
+  Button,
+  Modal,
+  Form,
+  Breadcrumb,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid"; // Install using npm install uuid
 
@@ -9,16 +18,69 @@ const Page1 = () => {
   const [heading, setHeading] = useState("AVAILABLE STOCK");
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(""); // "Add", "Update", or "Delete"
-  const [formData, setFormData] = useState({ id: "", name: "", qty: "", unit: "", color: "", gauge: "", reorderLevel: "" });
+  const [formData, setFormData] = useState({
+    id: "",
+    name: "",
+    qty: "",
+    unit: "",
+    color: "",
+    gauge: "",
+    reorderLevel: "",
+  });
   const [stock, setStock] = useState([
-    { id: "01", name: "Sample Data", qty: 1000, unit: "Ft", color: "Blue", gauge: "0.47", reorderLevel: 1500 },
-    { id: "02", name: "Sample Data", qty: 0, unit: "Ft", color: "Autom Red", gauge: "0.35", reorderLevel: 200 },
-    { id: "03", name: "Sample Data", qty: 250, unit: "Nos", color: "Green", gauge: "0.30", reorderLevel: 100 },
-    { id: "04", name: "Sample Data", qty: 0, unit: "Ft", color: "Chocolate Brown", gauge: "0.25", reorderLevel: 300 },
+    {
+      id: "01",
+      name: "Sample Data",
+      qty: 1000,
+      unit: "Ft",
+      color: "Blue",
+      gauge: "0.47",
+      reorderLevel: 1500,
+    },
+    {
+      id: "02",
+      name: "Sample Data",
+      qty: 0,
+      unit: "Ft",
+      color: "Autom Red",
+      gauge: "0.35",
+      reorderLevel: 200,
+    },
+    {
+      id: "03",
+      name: "Sample Data",
+      qty: 250,
+      unit: "Nos",
+      color: "Green",
+      gauge: "0.30",
+      reorderLevel: 100,
+    },
+    {
+      id: "04",
+      name: "Sample Data",
+      qty: 0,
+      unit: "Ft",
+      color: "Chocolate Brown",
+      gauge: "0.25",
+      reorderLevel: 300,
+    },
   ]);
   const [duplicateError, setDuplicateError] = useState("");
 
-  const productNames = ["Normal Roofing", "Tile Roofing", "Gutter", "Barge Flashing", "Down Pipe", "Ridge Cover", "Valley Gutter", "Valance Board", "Wall Flashing", "Nozzles", "End Cap", "Bracket"];
+  const productNames = [
+    "Normal Roofing",
+    "Tile Roofing",
+    "Gutter",
+    "Barge Flashing",
+    "Down Pipe",
+    "Ridge Cover",
+    "Valley Gutter",
+    "Valance Board",
+    "Wall Flashing",
+    "Nozzles",
+    "End Cap",
+    "Bracket",
+  ];
   const units = ["Ft", "Nos"];
   const colors = ["Autom Red", "Blue", "Chocolate Brown", "Green", "Meroon"];
   const gauges = ["0.47", "0.35", "0.30", "0.25", "0.20"];
@@ -34,7 +96,15 @@ const Page1 = () => {
   const handleModalOpen = (action, item = null) => {
     setModalAction(action);
     if (action === "Add") {
-      setFormData({ id: uuidv4(), name: "", qty: "", unit: "", color: "", gauge: "", reorderLevel: "" });
+      setFormData({
+        id: uuidv4(),
+        name: "",
+        qty: "",
+        unit: "",
+        color: "",
+        gauge: "",
+        reorderLevel: "",
+      });
     } else if (action === "Update" || action === "Delete") {
       setFormData(item);
     }
@@ -56,7 +126,9 @@ const Page1 = () => {
     );
 
     if (isDuplicate) {
-      setDuplicateError("This product already exists! You can update that particular product.");
+      setDuplicateError(
+        "This product already exists! You can update that particular product."
+      );
       return;
     }
 
@@ -66,9 +138,7 @@ const Page1 = () => {
       setStock([...stock, formData]);
     } else if (modalAction === "Update") {
       setStock(
-        stock.map((item) =>
-          item.id === formData.id ? { ...formData } : item
-        )
+        stock.map((item) => (item.id === formData.id ? { ...formData } : item))
       );
     } else if (modalAction === "Delete") {
       setStock(stock.filter((item) => item.id !== formData.id));
@@ -95,10 +165,10 @@ const Page1 = () => {
       heading === "AVAILABLE STOCK"
         ? true
         : heading === "OUT OF STOCKS ITEMS"
-          ? item.qty === 0
-          : heading === "RE-ORDER ITEMS"
-            ? item.qty < item.reorderLevel
-            : true;
+        ? item.qty === 0
+        : heading === "RE-ORDER ITEMS"
+        ? item.qty < item.reorderLevel
+        : true;
 
     const matchesColor =
       selectedColor === "All Colors" ? true : item.color === selectedColor;
@@ -110,16 +180,15 @@ const Page1 = () => {
   });
 
   return (
-    <div className="p-3">
-
+    <div className="px-3">
       <div>
         <Breadcrumb>
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
-            JRN Roofing
-          </Breadcrumb.Item>{"/"}
-          <Breadcrumb linkAs={Link} linkProps={{ to: "/inventory" }}>
-            Inventory Management
-          </Breadcrumb>
+            JRN
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active linkAs={Link} linkProps={{ to: "/inventory" }}>
+            inventory
+          </Breadcrumb.Item>
         </Breadcrumb>
       </div>
 
@@ -127,7 +196,12 @@ const Page1 = () => {
       <div className="mb-4 text-center d-flex justify-content-evenly">
         <Card
           border="info"
-          style={{ width: "15rem", backgroundColor: "#64748b", color: "#fff", cursor: "pointer" }}
+          style={{
+            width: "15rem",
+            backgroundColor: "#64748b",
+            color: "#fff",
+            cursor: "pointer",
+          }}
           onClick={() => handleCardClick("Available Stock")}
         >
           <Card.Body>
@@ -137,23 +211,37 @@ const Page1 = () => {
 
         <Card
           border="info"
-          style={{ width: "15rem", backgroundColor: "#64748b", color: "#fff", cursor: "pointer" }}
+          style={{
+            width: "15rem",
+            backgroundColor: "#64748b",
+            color: "#fff",
+            cursor: "pointer",
+          }}
           onClick={() => handleCardClick("Out Of Stocks")}
         >
           <Card.Body>
             <Card.Title>Out Of Stocks</Card.Title>
-            <Card.Subtitle>{stock.filter((item) => item.qty === 0).length}</Card.Subtitle>
+            <Card.Subtitle>
+              {stock.filter((item) => item.qty === 0).length}
+            </Card.Subtitle>
           </Card.Body>
         </Card>
 
         <Card
           border="info"
-          style={{ width: "15rem", backgroundColor: "#64748b", color: "#fff", cursor: "pointer" }}
+          style={{
+            width: "15rem",
+            backgroundColor: "#64748b",
+            color: "#fff",
+            cursor: "pointer",
+          }}
           onClick={() => handleCardClick("Re-Order Items")}
         >
           <Card.Body>
             <Card.Title>Re-Order Items</Card.Title>
-            <Card.Subtitle>{stock.filter((item) => item.qty < item.reorderLevel).length}</Card.Subtitle>
+            <Card.Subtitle>
+              {stock.filter((item) => item.qty < item.reorderLevel).length}
+            </Card.Subtitle>
           </Card.Body>
         </Card>
       </div>
@@ -162,7 +250,7 @@ const Page1 = () => {
       <div>
         <h2 className="mb-3">{heading}</h2>
 
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-2 mb-4">
           <DropdownButton
             id="color-dropdown"
             title={selectedColor}
@@ -243,7 +331,10 @@ const Page1 = () => {
 
       {/* Render Toast for Error */}
       {duplicateError && (
-        <div className="p-3 position-fixed top-20 start-50 translate-middle" style={{ zIndex: 2000 }}>
+        <div
+          className="p-3 position-fixed top-20 start-50 translate-middle"
+          style={{ zIndex: 2000 }}
+        >
           <div className="text-white toast show bg-danger">
             <div className="toast-body">{duplicateError}</div>
           </div>
@@ -344,7 +435,10 @@ const Page1 = () => {
                   type="number"
                   value={formData.reorderLevel}
                   onChange={(e) =>
-                    setFormData({ ...formData, reorderLevel: parseInt(e.target.value) })
+                    setFormData({
+                      ...formData,
+                      reorderLevel: parseInt(e.target.value),
+                    })
                   }
                 />
               </Form.Group>

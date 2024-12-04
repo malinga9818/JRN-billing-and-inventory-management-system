@@ -1,42 +1,41 @@
 import React, { useState } from "react";
 import { Card, Nav, Tab } from "react-bootstrap";
-import Page1 from "./Page1";
-// import Page2 from "./Page2";
-// import Page3 from "./Page3";
 
-function UsersManagement() {
+import Header from "../../Components/Header";
+import User from "./User";
 
+function UsersManagement({ setIsAuth }) {
   const [activeKey, setactiveKey] = useState("Page1");
 
   return (
     <div>
-      <Tab.Container activeKey={activeKey} onSelect={(r)=>setactiveKey(r)}>
+      <Tab.Container activeKey={activeKey} onSelect={(r) => setactiveKey(r)}>
         <Card>
           <Card.Header>
-            <Nav variant="tabs">
-              <Nav.Item>
-                <Nav.Link eventKey="Page1"> 
-                User Management
-                </Nav.Link>
-              </Nav.Item>
-               {/*<Nav.Item>
-                <Nav.Link eventKey="Page2"> 
-                  Page2
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="Page3"> 
-                  Page3
-                </Nav.Link>
-              </Nav.Item> */}
+            <Nav
+              variant="tabs "
+              className="d-flex align-items-center justify-content-between"
+            >
+              <div className="d-flex">
+                <Nav.Item>
+                  <Nav.Link eventKey="Page1">Users</Nav.Link>
+                </Nav.Item>
+              </div>
+              <h3 className="text-center">User Management</h3>
+
+              <div className="d-flex justify-content-end">
+                <Nav.Item>
+                  <Header setIsAuth={setIsAuth} />
+                </Nav.Item>
+              </div>
             </Nav>
           </Card.Header>
           <Card.Body>
             <Tab.Content>
               <Tab.Pane eventKey="Page1">
-                <Page1 setactiveKey={setactiveKey}/>
+                <User setactiveKey={setactiveKey} />
               </Tab.Pane>
-               {/*<Tab.Pane eventKey="Page2">
+              {/*<Tab.Pane eventKey="Page2">
                 <Page2 setactiveKey={setactiveKey}/>
               </Tab.Pane>
               <Tab.Pane eventKey="Page3">
@@ -47,7 +46,7 @@ function UsersManagement() {
         </Card>
       </Tab.Container>
     </div>
-  )
+  );
 }
 
-export default UsersManagement
+export default UsersManagement;
