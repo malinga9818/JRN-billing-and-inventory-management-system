@@ -105,9 +105,9 @@ const Dashboard = ({ setIsAuth }) => {
         <Row className="text-center bg-light p-2 rounded-lg">
           <Col lg={3} md={6} sm={12} className="">
             <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
-              <h5>
+              <h4>
                 <Dropdowns />
-              </h5>
+              </h4>
             </Card>
           </Col>
           <Col lg={3} md={6} sm={12} className="">
@@ -131,13 +131,13 @@ const Dashboard = ({ setIsAuth }) => {
         </Row>
       </Card>
       <Carousels />
-      <h5 className="text-blue-800">Recent Transactions</h5>
-      <Row className="mt-4 d-flex justify-content-between">
-        <Col lg={10}>
+      <h5 className="ml-8">Recent Transactions</h5>
+      <Row className="mt-4 mx-4">
+        <Col lg={12}>
           <Table bordered striped hover responsive>
             <thead>
-              <tr>
-                <th>Invoice No</th>
+              <tr className="bg-primary text-white">
+                <th >Invoice No</th>
                 <th>Customer Name</th>
                 <th>Date & Time</th>
                 <th>No of items</th>
@@ -160,13 +160,6 @@ const Dashboard = ({ setIsAuth }) => {
               })}
             </tbody>
           </Table>
-        </Col>
-
-        <Col lg={2}>
-          <div className="d-flex flex-column gap-3">
-            <Button variant="primary">Add New Invoice</Button>
-            <Button variant="primary">View All Transactions</Button>
-          </div>
         </Col>
       </Row>
     </div>

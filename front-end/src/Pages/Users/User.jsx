@@ -93,7 +93,7 @@ function User() {
       </div>
 
       <div className="mb-2 d-flex justify-content-between">
-        <h4>All Users</h4>
+        <h5>All Users</h5>
         <Button variant="primary" onClick={() => handleModalOpen("Add")}>
           Add User
         </Button>

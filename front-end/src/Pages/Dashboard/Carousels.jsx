@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Carousel } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css"; 
+import "bootstrap/dist/css/bootstrap.min.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 import roof1 from "../../assets/roofing1.jpeg";
 import roof2 from "../../assets/roofing2.jpeg";
-import roof3 from "../../assets/roofing3.jpeg"
+import roof3 from "../../assets/roofing3.jpeg";
 
 const talks = [
   {
@@ -89,17 +89,13 @@ function Carousels() {
           </div>
         </Col>
 
-        {/* Calendar and Clock Section */}
         <Col lg={2} md={12}>
           <div
             className="d-flex flex-column align-items-center  bg-gray-800 rounded shadow p-4 h-100"
-            style={{ minHeight: "200px" }}
+            style={{ minHeight: "180px" }}
           >
-            {/* real working time */}
             <div className="text-center text-light">
-              <h2>
-                {currentTime.toLocaleTimeString()}
-              </h2>
+              <h2>{currentTime.toLocaleTimeString()}</h2>
               <p>{currentTime.toLocaleDateString()}</p>
             </div>
           </div>

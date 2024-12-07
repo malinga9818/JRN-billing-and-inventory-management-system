@@ -5,9 +5,12 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["Roofing", "Others"], // Restrict to allowed others categories in front end
+      enum: ["Roofing", "Others"], // restrict to allowed others categories in front end
     },
     subCategory: {
+
+
+      
       type: String,
       required: true,
       enum: [

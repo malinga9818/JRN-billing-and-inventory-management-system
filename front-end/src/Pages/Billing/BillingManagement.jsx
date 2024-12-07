@@ -10,7 +10,6 @@ const BillingManagement = ({ setIsAuth }) => {
   const [activeKey, setActiveKey] = useState("BillingSummary");
 
   return (
-    <div className="d-flex flex-column ">
       <Tab.Container activeKey={activeKey} onSelect={(k) => setActiveKey(k)}>
         <Card>
           <Card.Header>
@@ -27,11 +26,11 @@ const BillingManagement = ({ setIsAuth }) => {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link eventKey="AllTrasnsactions">
-                    All Trasnsactions
+                    All Transactions
                   </Nav.Link>
                 </Nav.Item>
               </div>
-              <h3 className="text-center">Billing Management</h3>
+              {/* <h3 className="text-center mr-5">Billing Management</h3> */}
 
               <div className="d-flex justify-content-end">
                 <Nav.Item>
@@ -56,8 +55,9 @@ const BillingManagement = ({ setIsAuth }) => {
           </Card.Body>
         </Card>
       </Tab.Container>
-    </div>
+  
   );
 };
 
 export default BillingManagement;
+

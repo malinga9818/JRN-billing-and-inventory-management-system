@@ -14,12 +14,12 @@ import Dropdowns from "../../Components/Dropdowns";
 
 const summaryData = {
   timePeriod: "TODAY",
-  sales: 1,
-  inventory: 0,
-  finance: 2,
+  sales: 2,
+  inventory: 2,
+  finance: 1,
 };
 
-const initialReports = [
+const ReportsData = [
   {
     id: 1,
     period: "Week",
@@ -61,7 +61,7 @@ const periodOptions = ["Day", "Week", "Month"];
 const typeOptions = ["Finance", "Sales", "Inventory"];
 
 function Report() {
-  const [reports, setReports] = useState(initialReports);
+  const [reports, setReports] = useState(ReportsData);
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState("");
   const [formData, setFormData] = useState({
@@ -115,17 +115,32 @@ function Report() {
     handleModalClose();
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredReports = ReportsData.filter(
+    (reports) =>
+      reports.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reports.period.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container">
-      <Breadcrumb className="flex items-center no-underline">
-        <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
-          JRN{" "}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/billing" }}>
-          Reports
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active>Overview</Breadcrumb.Item>
-      </Breadcrumb>
+      <div className="d-flex align-items-center justify-content-between">
+        <Breadcrumb>
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
+            JRN
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Reports</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="position-relative mb-3">
+          <Form.Control
+            type="text"
+            placeholder="search reports"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-80 rounded-md ps-5 border border-black-300"
+          />
+        </div>
+      </div>
       <Card className="mx-2">
         <Row className="text-center bg-light p-2 rounded-lg">
           <Col lg={3} md={6} sm={12} className="">
@@ -155,7 +170,7 @@ function Report() {
       </Card>
 
       <div className="flex justify-between items-center mx-2 mt-10 mb-2">
-        <h5 className="text-blue-800">Recently Generated Reports</h5>
+        <h5 className="">Recently Generated Reports</h5>
         <div className="flex gap-3 ">
           <Button variant="primary" onClick={() => handleModalOpen("Add")}>
             Add New Report
@@ -179,7 +194,7 @@ function Report() {
           </tr>
         </thead>
         <tbody>
-          {reports.map((report, index) => (
+          {filteredReports.map((report, index) => (
             <tr key={report.id}>
               <td>{report.period}</td>
               <td>{report.type}</td>

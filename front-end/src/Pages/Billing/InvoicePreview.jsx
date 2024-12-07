@@ -3,8 +3,6 @@ import { Modal, Button } from "react-bootstrap";
 import EmailSender from "./EmailSender"; // Import the EmailSender component
 
 function InvoicePreview({ show, handleClose, invoiceData }) {
-
-  
   const invoiceRef = useRef();
 
   const userId = "dilshanp5400@gmail.com"; // put actual user email
@@ -66,7 +64,7 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
         <div ref={invoiceRef}>
           <div className="text-center mb-4">
             <h4>JRN MODERN ROOFING (PVT)LTD</h4>
-            <p>123 Main Street, Thunpane, Anuradapura</p>
+            <p>123 Main Street, Anuradapura</p>
             <p>Phone: +94 77 7866272 | Email: jrnroofing@gmail.com</p>
           </div>
 
@@ -90,13 +88,13 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
           <div className="mb-4">
             <h5>Customer Details</h5>
             <p>
-              <strong>Name:</strong> {invoiceData.customerName}
+              <strong>Name: kalana</strong> {invoiceData.customerName}
             </p>
             <p>
-              <strong>City:</strong> {invoiceData.customerCity}
+              <strong>City: baduraliya</strong> {invoiceData.customerCity}
             </p>
             <p>
-              <strong>Telephone:</strong> {invoiceData.customerTel}
+              <strong>Telephone: 0786754643</strong> {invoiceData.customerTel}
             </p>
           </div>
 
@@ -107,6 +105,7 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
                 <th></th>
                 <th>Product</th>
                 <th>Gauge</th>
+                <th>Unit</th>
                 <th>Color</th>
                 <th>Qty</th>
                 <th>Unit Price</th>
@@ -120,6 +119,7 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
                   <td>{index + 1}</td>
                   <td>{product.product}</td>
                   <td>{product.gauge}</td>
+                  <td>{product.unit}</td>
                   <td>{product.color}</td>
                   <td>{product.qty}</td>
                   <td>{product.uPrice}</td>
@@ -130,7 +130,6 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
             </tbody>
           </table>
 
-          {/* Invoice Summary */}
           <div className="d-flex justify-content-end">
             <div>
               <p>

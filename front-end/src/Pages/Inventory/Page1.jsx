@@ -17,6 +17,7 @@ const Page1 = () => {
   const [selectedGauge, setSelectedGauge] = useState("All Gauges");
   const [heading, setHeading] = useState("AVAILABLE STOCK");
   const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [modalAction, setModalAction] = useState(""); // "Add", "Update", or "Delete"
   const [formData, setFormData] = useState({
     id: "",
@@ -158,9 +159,7 @@ const Page1 = () => {
     } else {
       setHeading("AVAILABLE STOCK");
     }
-  };
-
-  const filteredStock = stock.filter((item) => {
+  };const filteredStock = stock.filter((item) => {
     const matchesHeading =
       heading === "AVAILABLE STOCK"
         ? true
@@ -169,30 +168,45 @@ const Page1 = () => {
         : heading === "RE-ORDER ITEMS"
         ? item.qty < item.reorderLevel
         : true;
-
+  
     const matchesColor =
       selectedColor === "All Colors" ? true : item.color === selectedColor;
-
+  
     const matchesGauge =
       selectedGauge === "All Gauges" ? true : item.gauge === selectedGauge;
-
-    return matchesHeading && matchesColor && matchesGauge;
+  
+    const searchByName = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchByColor = item.color.toLowerCase().includes(searchTerm.toLowerCase());
+  
+    // combine all conditions
+    return (
+      matchesHeading &&
+      matchesColor &&
+      matchesGauge &&
+      (searchByName || searchByColor) 
+    );
   });
 
   return (
     <div className="px-3">
-      <div>
+      <div className="d-flex align-items-center justify-content-between">
         <Breadcrumb>
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
             JRN
           </Breadcrumb.Item>
-          <Breadcrumb.Item active linkAs={Link} linkProps={{ to: "/inventory" }}>
-            inventory
-          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Inventory</Breadcrumb.Item>
         </Breadcrumb>
+        <div className="position-relative mb-3">
+          <Form.Control
+            type="text"
+            placeholder="search by name or color"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-80 rounded-md ps-5 border border-black-300"
+          />
+        </div>
       </div>
 
-      {/* Inventory Summary */}
       <div className="mb-4 text-center d-flex justify-content-evenly">
         <Card
           border="info"
@@ -248,7 +262,7 @@ const Page1 = () => {
 
       {/* Stock Table */}
       <div>
-        <h2 className="mb-3">{heading}</h2>
+        <h5 className="mb-3">{heading}</h5>
 
         <div className="d-flex gap-2 mb-4">
           <DropdownButton
@@ -341,7 +355,6 @@ const Page1 = () => {
         </div>
       )}
 
-      {/* Modal for Add/Update/Delete */}
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>{modalAction} Product</Modal.Title>

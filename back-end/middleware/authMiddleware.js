@@ -41,8 +41,7 @@
 import jwt from "jsonwebtoken";
 
 const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1]; // xxtract token from Authorization header
-
+  const token = req.headers.authorization?.split(" ")[1]; // extract token from authorization header
   if (!token) return res.status(401).json({ message: "Unauthorized" });
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
@@ -50,9 +49,9 @@ const authenticateToken = (req, res, next) => {
       return res
         .status(403)
         .json({ message: "Forbidden: Token Expired or Invalid" });
-    req.user = user; // Add user data to request object
+    req.user = user; // add user data to request object
     next();
   });
 };
-
 export default authenticateToken;
+

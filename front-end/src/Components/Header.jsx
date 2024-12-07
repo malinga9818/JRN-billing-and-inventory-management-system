@@ -5,7 +5,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { Form, Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function Header({ showSearch = true, setIsAuth }) {
+function Header({ setIsAuth }) {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Track dropdown state
   const [showLogoutModal, setShowLogoutModal] = useState(false); // Track modal state
@@ -21,28 +21,7 @@ function Header({ showSearch = true, setIsAuth }) {
   };
 
   return (
-    <header className="bg-light p-1 d-flex justify-content-between align-items-center gap-3 mr-5">
-      <div className="d-flex align-items-center gap-3">
-        {showSearch && (
-          <div className="position-relative">
-            <Form.Control
-              type="text"
-              placeholder="Search"
-              className="w-60 rounded-pill ps-5" 
-            />
-            <AiOutlineSearch
-              size={20}
-              className="position-absolute"
-              style={{
-                top: "50%",
-                left: "10px",
-                transform: "translateY(-50%)",
-              }}
-            />
-          </div>
-        )}
-      </div>
-
+    <div>
       <div className="d-flex align-items-center gap-3">
         <IoIosNotificationsOutline size={25} className="cursor-pointer" />
 
@@ -94,7 +73,7 @@ function Header({ showSearch = true, setIsAuth }) {
           </Button>
         </Modal.Footer>
       </Modal>
-    </header>
+    </div>
   );
 }
 

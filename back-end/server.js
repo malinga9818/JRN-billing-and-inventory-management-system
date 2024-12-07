@@ -29,3 +29,9 @@ app.use("/inventory", inventoryRoutes);
 
 import authRoutes from "./routers/authRoutes.js";
 app.use("/api/auth", authRoutes);
+
+import employeeRouter from "./routers/userRouters/employeeRouter.js";
+app.use("/api/employees", employeeRouter);
+
+import grantAccessRoutes from "./routers/userRouters/grantAccessRouter.js"; // Adjust the path as ne
+app.use("/api", grantAccessRoutes); 

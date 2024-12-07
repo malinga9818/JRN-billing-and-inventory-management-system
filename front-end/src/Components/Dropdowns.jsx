@@ -9,7 +9,7 @@ const Dropdowns = () => {
   };
 
   return (
-    <div className="rounded p-3 text-dark flex items-center justify-center gap-3">
+    <div className="rounded p-3 text-dark flex items-center justify-center gap-3 z-10">
       <Dropdown onSelect={handleSelect}>
         <Dropdown.Toggle variant="light" id="dropdown-basic"></Dropdown.Toggle>
         <Dropdown.Menu>

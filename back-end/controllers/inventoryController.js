@@ -1,5 +1,5 @@
 import Product from "../models/inventoryModels.js";
-// addd product
+// add product
 export const addProduct = async (req, res) => {
   try {
     const newProduct = new Product(req.body);

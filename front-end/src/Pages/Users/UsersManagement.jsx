@@ -3,6 +3,7 @@ import { Card, Nav, Tab } from "react-bootstrap";
 
 import Header from "../../Components/Header";
 import User from "./User";
+import UserHandle from "./UserHandle";
 
 function UsersManagement({ setIsAuth }) {
   const [activeKey, setactiveKey] = useState("Page1");
@@ -21,6 +22,11 @@ function UsersManagement({ setIsAuth }) {
                   <Nav.Link eventKey="Page1">Users</Nav.Link>
                 </Nav.Item>
               </div>
+              <div className="d-flex">
+                <Nav.Item>
+                  <Nav.Link eventKey="UserHandle">Users handle</Nav.Link>
+                </Nav.Item>
+              </div>
               <h3 className="text-center">User Management</h3>
 
               <div className="d-flex justify-content-end">
@@ -35,15 +41,13 @@ function UsersManagement({ setIsAuth }) {
               <Tab.Pane eventKey="Page1">
                 <User setactiveKey={setactiveKey} />
               </Tab.Pane>
-              {/*<Tab.Pane eventKey="Page2">
-                <Page2 setactiveKey={setactiveKey}/>
+              <Tab.Pane eventKey="UserHandle">
+                <UserHandle setactiveKey={setactiveKey} />
               </Tab.Pane>
-              <Tab.Pane eventKey="Page3">
-                <Page3 setactiveKey={setactiveKey}/>
-                </Tab.Pane> */}
             </Tab.Content>
           </Card.Body>
         </Card>
+        
       </Tab.Container>
     </div>
   );

@@ -865,6 +865,7 @@ function BillingInvoice() {
     category: "",
     product: "",
     gauge: "",
+    unit: "",
     color: "",
     qty: "",
     uPrice: "",
@@ -892,6 +893,7 @@ function BillingInvoice() {
       category: "",
       product: "",
       gauge: "",
+      unit: "",
       color: "",
       qty: "",
       uPrice: "",
@@ -1002,6 +1004,7 @@ function BillingInvoice() {
       category: "",
       product: "",
       gauge: "",
+      unit: "",
       color: "",
       qty: "",
       uPrice: "",
@@ -1038,8 +1041,7 @@ function BillingInvoice() {
   const [showDataTable, setShowDataTable] = useState(false);
   return (
     <div className="contariner ">
-            {" "}
-
+      {" "}
       <Breadcrumb className="ml-4">
         <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
           JRN
@@ -1049,11 +1051,10 @@ function BillingInvoice() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Invoice</Breadcrumb.Item>
       </Breadcrumb>
-
-      <Form className="px-2 ">
-        <div className="border border-dark-opacity-50 rounded mb-4">
-          <div className="p-3 bg-light rounded mb-4">
-            <h5>Customer Details</h5>
+      <Form className="px-4 py-3 bg-white shadow rounded">
+        <div className="border border-gray-300 rounded mb-4">
+          <div className="p-4 bg-gray-100 rounded mb-4">
+            <h5 className="font-semibold">Customer Details</h5>
             <Row className="g-3">
               <Col md={4}>
                 <Form.Group controlId="customerName">
@@ -1094,22 +1095,9 @@ function BillingInvoice() {
             </Row>
           </div>
 
-          <div className="p-3 bg-light mb-4">
-            {" "}
-            <h5>Product Details</h5>
+          <div className="p-4 bg-gray-100 mb-4">
+            <h5 className="font-semibold">Product Details</h5>
             <Row className="g-3">
-              {/* <Col md={3}>
-                <Form.Group controlId="productCategory">
-                  <Form.Label>Category</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter category"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              </Col> */}
               <Col md={3}>
                 <Form.Group className="mb-3">
                   <Form.Label>Product Name</Form.Label>
@@ -1131,17 +1119,6 @@ function BillingInvoice() {
                 </Form.Group>
               </Col>
 
-              {/* <Col md={3}>
-                <Form.Group controlId="productColor">
-                  <Form.Label>Color</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter color"
-                    name="color"
-                    value={formData.color}
-                    onChange={handleChange}
-                  />
-                </Form.Group> */}
               <Col md={3}>
                 <Form.Group className="mb-3">
                   <Form.Label>Color</Form.Label>
@@ -1162,6 +1139,7 @@ function BillingInvoice() {
                   </Form.Control>
                 </Form.Group>
               </Col>
+
               <Col md={3}>
                 <Form.Group className="mb-3">
                   <Form.Label>Gauge</Form.Label>
@@ -1182,7 +1160,29 @@ function BillingInvoice() {
                   </Form.Control>
                 </Form.Group>
               </Col>
+              <Col md={3}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Unit</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={formData.unit}
+                    name="unit"
+                    onChange={handleChange}
+                  >
+                    <option value="" disabled>
+                      Select a unit
+                    </option>
+                    {units.map((unit, i) => (
+                      <option key={i} value={unit}>
+                        {unit}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
 
+            <Row className="g-3 mt-3">
               <Col md={3}>
                 <Form.Group controlId="productQty">
                   <Form.Label>Qty</Form.Label>
@@ -1195,8 +1195,7 @@ function BillingInvoice() {
                   />
                 </Form.Group>
               </Col>
-            </Row>
-            <Row className="g-3 mt-3">
+
               <Col md={3}>
                 <Form.Group controlId="productUnitPrice">
                   <Form.Label>Unit Price</Form.Label>
@@ -1221,8 +1220,8 @@ function BillingInvoice() {
                   />
                 </Form.Group>
               </Col>
-              <Col className="d-flex align-items-center justify-content-end mt-5">
-                <div className="d-flex gap-5">
+              <Col className="d-flex align-items-center justify-content-end mt-4">
+                <div className="d-flex gap-3">
                   <Button variant="danger" onClick={clearForm}>
                     Clear
                   </Button>
@@ -1235,17 +1234,18 @@ function BillingInvoice() {
           </div>
         </div>
 
-        {showDataTable ? (
+        {showDataTable && (
           <>
             <div className="mb-4">
-              <div className="p-3 bg-light rounded">
-                <h5>Product Table</h5>
+              <div className="p-4 bg-gray-100 rounded">
+                <h5 className="font-semibold">Items</h5>
                 <Table bordered hover responsive>
                   <thead>
                     <tr>
                       <th></th>
                       <th>Product Name</th>
                       <th>Gauge</th>
+                      <th>Unit</th>
                       <th>Color</th>
                       <th>Qty</th>
                       <th>Unit Price</th>
@@ -1259,6 +1259,7 @@ function BillingInvoice() {
                         <td>{index + 1}</td>
                         <td>{product.product}</td>
                         <td>{product.gauge}</td>
+                        <td>{product.unit}</td>
                         <td>{product.color}</td>
                         <td>{product.qty}</td>
                         <td>{product.uPrice}</td>
@@ -1271,8 +1272,8 @@ function BillingInvoice() {
               </div>
             </div>
             <div className="mb-4">
-              <div className="p-3 bg-light rounded">
-                <h5>Invoice Summary</h5>
+              <div className="p-4 bg-gray-100 rounded">
+                <h5 className="font-semibold">Invoice Summary</h5>
                 <div className="d-flex justify-content-between">
                   <div>
                     <p>Subtotal: {totals.subtotal}</p>
@@ -1285,8 +1286,8 @@ function BillingInvoice() {
               </div>
             </div>
             <div className="d-flex justify-content-end gap-3">
-              <Button variant="primary">All Transactions</Button>
-              <Button variant="primary">Notify Owner</Button>
+              {/* <Button variant="primary">All Transactions</Button>
+              <Button variant="primary">Notify Owner</Button> */}
               <Button variant="danger" onClick={clearAllData}>
                 Clear
               </Button>
@@ -1301,13 +1302,12 @@ function BillingInvoice() {
                 handleClose={handleCloseModal}
                 invoiceData={invoiceData}
               />
-            </div>{" "}
+            </div>
           </>
-        ) : null}
+        )}
       </Form>
     </div>
   );
 }
 
 export default BillingInvoice;
-
