@@ -149,34 +149,34 @@ import "./Signin.css";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // icons from react-icons
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function SignIn({ setIsAuth }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
-  const [showModal, setShowModal] = useState(false); //to loging err medel visibility
-  const [modalMessage, setModalMessage] = useState(""); // state for modal message
+  const [role, setRole] = useState("cahier"); 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/sign-in",
-        {
-          username,
-          password,
-        }
-      );
-      localStorage.setItem("token", response.data.token); // Save token
-      setIsAuth(true); // Update auth state
-      navigate("/"); // Redirect to dashboard
+      const response = await axios.post("http://localhost:8000/api/auth/sign-in", {
+        username,
+        password,
+        role
+      });
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", role);
+      setIsAuth(true);
+      navigate("/");
     } catch (err) {
       console.error(err);
-      setModalMessage("Invalid credentials. Please try again."); // set modal message
-      setShowModal(true); //
+      setModalMessage("Invalid credentials. Please try again.");
+      setShowModal(true);
     }
   };
 
@@ -185,27 +185,20 @@ function SignIn({ setIsAuth }) {
   };
 
   const handleCloseModal = () => {
-    setShowModal(false); // close modal
+    setShowModal(false);
   };
 
   return (
     <div className="bg-blue-950 lg:bg-black h-screen">
       <div className="flex items-center justify-center h-full text-white relative">
         <div className="w-[500px] h-[600px] bg-blue-950 opacity-70 rounded-lg hidden lg:inline relative left-20">
-          <div className="flex flex-col justify-between h-full p-8">
-            <h1 className="text-3xl font-semibold relative top-1">
-              <span className="text-5xl font-bold bg-gradient-to-r from-red-800 via-red-400 to-red-800 bg-clip-text text-transparent">
-                JRN{" "}
-              </span>
-              Roofing..
+          <div className="flex flex-col justify-between h-full p-8 mt-4">
+            <h1 className="text-3xl font-semibold relative  top-1">
+              <span className="text-5xl font-bold bg-gradient-to-r from-red-800 via-red-400 to-red-800 bg-clip-text text-transparent"> JRN{" "} </span><br/><span className="ml-7"> Roofing..</span>
             </h1>
             <p className="text-3xl font-thin relative">
-              <span className="text-4xl font-bold ml-2 bg-gradient-to-r from-yellow-500 via-yellow-100 to-yellow-600 bg-clip-text text-transparent">
-                Welcome!
-              </span>
-              <br />
-              Log in to streamline your operations. Choose your role to get
-              started.
+              <span className="text-4xl font-bold ml-2 bg-gradient-to-r from-yellow-500 via-yellow-100 to-yellow-600 bg-clip-text text-transparent"> Welcome! </span>
+              <br /> Log in to streamline your operations. Choose your role to get started.
             </p>
           </div>
         </div>
@@ -213,76 +206,38 @@ function SignIn({ setIsAuth }) {
           <h3 className="text-center text-2xl font-bold mb-2">Sign In</h3>
           <Form className="flex flex-col gap-4" onSubmit={handleSignIn}>
             <Form.Group controlId="username">
-              <Form.Label className="mb-1 text-sm font-medium text-gray-700">
-                User Name
-              </Form.Label>
-              <Form.Control
-                type="text"
-                name="username"
-                placeholder="user name"
-                className="p-2 w-full border border-gray-300 rounded-md"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
+              <Form.Label className="mb-1 text-sm font-medium text-gray-700"> User Name </Form.Label>
+              <Form.Control type="text" name="username" placeholder="user name" className="p-2 w-full border border-gray-300 rounded-md" value={username} onChange={(e) => setUsername(e.target.value)} required />
             </Form.Group>
             <Form.Group controlId="password">
-              <Form.Label className="mb-1 text-sm font-medium text-gray-700">
-                Password
-              </Form.Label>
+              <Form.Label className="mb-1 text-sm font-medium text-gray-700"> Password </Form.Label>
               <div className="relative">
-                <Form.Control
-                  type={showPassword ? "text" : "password"} // Toggle input type
-                  name="password"
-                  placeholder="*********"
-                  className="p-2 w-full border border-gray-300 rounded-md"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <div
-                  className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? (
-                    <FaEyeSlash size={20} />
-                  ) : (
-                    <FaEye size={20} />
-                  )}
+                <Form.Control type={showPassword ? "text" : "password"} name="password" placeholder="*********" className="p-2 w-full border border-gray-300 rounded-md" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer" onClick={togglePasswordVisibility}>
+                  {showPassword ? (<FaEyeSlash size={20} />) : (<FaEye size={20} />)}
                 </div>
               </div>
             </Form.Group>
-            <Button
-              className="py-2 bg-gradient-to-r from-indigo-700 via-indigo-400 to-indigo-700 rounded-lg text-white"
-              type="submit"
-            >
-              Sign In
-            </Button>
+            {/* <Form.Group controlId="role">
+              <Form.Label className="mb-1 text-sm font-medium text-gray-700"> Role </Form.Label>
+              <Form.Control as="select" value={role} onChange={(e) => setRole(e.target.value)} required>
+                <option value="cashier">Cahier</option>
+                <option value="owner">Owner</option>
+                <option value="admin">Admin</option>
+              </Form.Control>
+            </Form.Group> */}
+            <Button className="py-2 bg-gradient-to-r from-indigo-700 via-indigo-400 to-indigo-700 rounded-lg text-white" type="submit"> Sign In </Button>
           </Form>
-          <div className="flex gap-2 text-sm mt-4">
-            <span>If you don't have an account?</span>
-            <Link to="/sign-up" className="text-blue-500">
-              Sign Up
-            </Link>
-          </div>
+          
         </div>
       </div>
-
-      {/* this for error alert when user try to login with incorrect us & pw */}
-      <Modal
-        show={showModal}
-        onHide={handleCloseModal}
-        className="custom-modal "
-        
-      >
+      <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
         <Modal.Header closeButton>
           <Modal.Title>Logon Error</Modal.Title>
         </Modal.Header>
         <Modal.Body>{modalMessage}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
+          <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
         </Modal.Footer>
       </Modal>
     </div>
