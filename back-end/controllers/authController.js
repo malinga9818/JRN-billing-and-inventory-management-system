@@ -90,6 +90,7 @@ export const signIn = async (req, res) => {
     res.status(200).json({
       message: "Sign-in successful",
       token, // Send the token back to the frontend
+      role: user.role, //  role in the response
     });
   } catch (err) {
     res.status(500).json({ message: "Server Error", error: err.message });

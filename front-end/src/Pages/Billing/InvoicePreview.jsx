@@ -1,20 +1,20 @@
 import React, { useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
-import EmailSender from "./EmailSender"; // Import the EmailSender component
+import EmailSender from "./EmailSender";
 
 function InvoicePreview({ show, handleClose, invoiceData }) {
   const invoiceRef = useRef();
 
   const userId = "dilshanp5400@gmail.com"; // put actual user email
   const serviceId = "service_zk5k8nm"; // emailJS service id
-  const templateId = "template_k9i0wkf"; // emailJS template  id
+  const templateId = "template_k9i0wkf"; // emailJS template id
   const publicKey = "B0On3JI3DI994F4QV"; // emailJS public key
 
   const currentDate = new Date().toLocaleDateString();
   const currentTime = new Date().toLocaleTimeString();
 
-  // Function to handle printing
   const handlePrint = () => {
+ 
     const printContent = invoiceRef.current.innerHTML;
     const newWindow = window.open("", "_blank");
     newWindow.document.write(`
@@ -71,30 +71,29 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
           <div className="d-flex justify-content-between mb-4">
             <div>
               <p>
-                <strong>Date:</strong> {currentDate}
+                <strong>Date:</strong> {invoiceData.date}
               </p>
               <p>
-                <strong>Time:</strong> {currentTime}
+                <strong>Time:</strong> {invoiceData.time}
               </p>
             </div>
             <div>
               <p>
-                <strong>Invoice :</strong> 0001
+                <strong>Invoice :</strong> {invoiceData.invoiceNumber}
               </p>
             </div>
           </div>
 
-          {/* Customer info section*/}
           <div className="mb-4">
             <h5>Customer Details</h5>
             <p>
-              <strong>Name: kalana</strong> {invoiceData.customerName}
+              <strong>Name:</strong> {invoiceData.customerName}
             </p>
             <p>
-              <strong>City: baduraliya</strong> {invoiceData.customerCity}
+              <strong>City:</strong> {invoiceData.customerCity}
             </p>
             <p>
-              <strong>Telephone: 0786754643</strong> {invoiceData.customerTel}
+              <strong>Telephone:</strong> {invoiceData.customerTel}
             </p>
           </div>
 
@@ -133,34 +132,29 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
           <div className="d-flex justify-content-end">
             <div>
               <p>
-                <strong>Subtotal:</strong>{" "}
-                {invoiceData.totals.subtotal.toFixed(2)}
+                <strong>Subtotal:</strong> {invoiceData.totals.subtotal.toFixed(2)}
               </p>
               <p>
-                <strong>Total Discount:</strong>{" "}
-                {invoiceData.totals.totalDiscount.toFixed(2)}
+                <strong>Total Discount:</strong> {invoiceData.totals.totalDiscount.toFixed(2)}
               </p>
               <p>
-                <strong>Grand Total:</strong>{" "}
-                {invoiceData.totals.grandTotal.toFixed(2)}
+                <strong>Grand Total:</strong> {invoiceData.totals.grandTotal.toFixed(2)}
               </p>
             </div>
           </div>
         </div>
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className="d-flex align-items-center">
         <Button variant="primary" onClick={handlePrint}>
           Print Invoice
         </Button>
-        {/* Email sending component to send invoice data */}
-        {/* Add the EmailSender component here */}
         <EmailSender
           invoiceData={invoiceData}
           userId={userId}
           serviceId={serviceId}
           templateId={templateId}
           publicKey={publicKey}
-        />{" "}
+        />
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>

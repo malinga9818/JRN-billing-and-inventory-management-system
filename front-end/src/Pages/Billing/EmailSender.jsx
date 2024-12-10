@@ -1,49 +1,71 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
-import emailjs from "emailjs-com"; // Import emailjs library
+import { Button, Alert } from "react-bootstrap";
+import emailjs from "emailjs-com";
 
-function EmailSender({ invoiceData, userId, serviceId, templateId, publicKey }) {
+function EmailSender({ invoiceData, serviceId, templateId, publicKey }) {
   const [sending, setSending] = useState(false);
   const [status, setStatus] = useState("");
 
-  // Function to send email using emailjs service
+  // send email
   const sendEmail = () => {
     setSending(true);
     setStatus("Sending...");
 
-    // Email parameters to be sent (you can customize this as needed)
+    // formatting for better readability in the email
+    const formattedProducts = invoiceData.products
+      .map(
+        (p) =>
+          `Product: ${p.product}, Gauge: ${p.gauge}, Unit: ${p.unit}, Color: ${p.color}, Quantity: ${p.qty}, Unit Price: ${p.uPrice}, Discount: ${p.discount}, Total: ${p.total}`
+      )
+      .join("\n");
+
+    // template parameters
     const templateParams = {
-      user_id: userId, // User ID or email recipient
       invoice_number: invoiceData.invoiceNumber,
+      date: invoiceData.date,
+      time: invoiceData.time,
       customer_name: invoiceData.customerName,
-      product_details: JSON.stringify(invoiceData.products),
-      subtotal: invoiceData.totals.subtotal,
-      discount: invoiceData.totals.totalDiscount,
-      grand_total: invoiceData.totals.grandTotal,
+      customer_city: invoiceData.customerCity,
+      customer_phone: invoiceData.customerTel,
+      products: formattedProducts,
+      subtotal: invoiceData.totals.subtotal.toFixed(2),
+      total_discount: invoiceData.totals.totalDiscount.toFixed(2),
+      grand_total: invoiceData.totals.grandTotal.toFixed(2),
     };
 
-    // Use emailjs to send the email
-    emailjs
-      .send(serviceId, templateId, templateParams, publicKey)
-      .then(
-        (response) => {
-          setStatus("Invoice sent successfully!");
-          setSending(false);
-          console.log("Email sent successfully:", response);
-        },
-        (error) => {
-          setStatus(`Failed to send email: ${error.text}`);
-          setSending(false);
-        }
-      );
+    //  using EmailJS we send the email
+    emailjs.send(serviceId, templateId, templateParams, publicKey).then(
+      (response) => {
+        setStatus("Invoice sent successfully!");
+        setSending(false);
+        console.log("Email sent successfully:", response);
+      },
+      (error) => {
+        setStatus(`Failed to send email: ${error.text}`);
+        setSending(false);
+        console.error("Email sending error:", error);
+      }
+    );
   };
 
   return (
-    <div>
-      <Button variant="success" onClick={sendEmail} disabled={sending}>
-        {sending ? "Sending..." : "Send Invoice to Owner"}
-      </Button>
-      {status && <p>{status}</p>}
+    <div className="email-sender">
+      {!status && (
+        <Button
+          variant="success"
+          onClick={sendEmail}
+          disabled={sending}
+          className="mb-3"
+        >
+          {sending ? "Sending..." : "Send Invoice to Owner"}
+        </Button>
+      )}
+
+      {status && (
+        <Alert variant={status.includes("Failed") ? "danger" : "success"}>
+          {status}
+        </Alert>
+      )}
     </div>
   );
 }
