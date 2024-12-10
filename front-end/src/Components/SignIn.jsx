@@ -154,7 +154,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 function SignIn({ setIsAuth }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("cahier"); 
+  const [role, setRole] = useState("cashier"); 
   const [showPassword, setShowPassword] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -218,14 +218,14 @@ function SignIn({ setIsAuth }) {
                 </div>
               </div>
             </Form.Group>
-            {/* <Form.Group controlId="role">
+            <Form.Group controlId="role">
               <Form.Label className="mb-1 text-sm font-medium text-gray-700"> Role </Form.Label>
               <Form.Control as="select" value={role} onChange={(e) => setRole(e.target.value)} required>
-                <option value="cashier">Cahier</option>
+                <option value="cashier">Cashier</option>
                 <option value="owner">Owner</option>
                 <option value="admin">Admin</option>
               </Form.Control>
-            </Form.Group> */}
+            </Form.Group> 
             <Button className="py-2 bg-gradient-to-r from-indigo-700 via-indigo-400 to-indigo-700 rounded-lg text-white" type="submit"> Sign In </Button>
           </Form>
           

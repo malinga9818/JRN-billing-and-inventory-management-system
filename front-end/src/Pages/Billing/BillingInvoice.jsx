@@ -859,9 +859,9 @@ import InvoicePreview from "./InvoicePreview";
 function BillingInvoice() {
   const [productData, setProductData] = useState([]);
   const [formData, setFormData] = useState({
-    customerName: "",
-    customerCity: "",
-    customerTel: "",
+    // customerName: "",
+    // customerCity: "",
+    // customerTel: "",
     category: "",
     product: "",
     gauge: "",
@@ -872,6 +872,10 @@ function BillingInvoice() {
     discount: "",
     editIndex: null, // to keep track of the product being edited
   });
+
+  const [customerName, setCustomerName] = useState("");
+  const [customerCity, setCustomerCity] = useState("");
+  const [customerTel, setcCustomerTel] = useState("");
 
   // state for total calculation
   const [totals, setTotals] = useState({
@@ -953,50 +957,16 @@ function BillingInvoice() {
   const handleCloseModal = () => setShowInvoiceModal(false);
 
   const invoiceData = {
-    customerName: formData.customerName,
-    customerCity: formData.customerCity,
-    customerTel: formData.customerTel,
+    date: new Date().toLocaleDateString(), // fromt is MM/DD/YYYY 
+    time: new Date().toLocaleTimeString(), // format is HH:MM:SS AM/PM
+    customerName: customerName,
+    customerCity: customerCity,
+    customerTel: customerTel,
     products: productData,
     totals,
   };
-  //***************************************************************************** */
-  // const handleGenerateInvoice = () => {
-  //   const doc = new jsPDF();
-  //   doc.text("Invoice", 20, 10);
-  //   doc.autoTable({
-  //     head: [
-  //       [
-  //         "#",
-  //         "Category",
-  //         "Product",
-  //         "Gauge",
-  //         "Color",
-  //         "Qty",
-  //         "Unit Price",
-  //         "Discount",
-  //         "Total",
-  //       ],
-  //     ],
-  //     body: productData.map((p, i) => [
-  //       i + 1,
-  //       p.category,
-  //       p.product,
-  //       p.gauge,
-  //       p.color,
-  //       p.qty,
-  //       p.uPrice,
-  //       `${p.discount}%`,
-  //       p.total,
-  //     ]),
-  //   });
-  //   doc.text(`Subtotal: ${totals.subtotal.toFixed(2)}`, 14, 250);
-  //   doc.text(`Total Discount: ${totals.totalDiscount.toFixed(2)}`, 14, 260);
-  //   doc.text(`Grand Total: ${totals.grandTotal.toFixed(2)}`, 14, 270);
-  //   doc.save("invoice.pdf");
-  // };
-  //***************************************************************************** */
+  
   const clearAllData = () => {
-    // this reset both the form data and product data and totals when click clear btn
     setFormData({
       customerName: "",
       customerCity: "",
@@ -1063,8 +1033,7 @@ function BillingInvoice() {
                     type="text"
                     placeholder="Enter name"
                     name="customerName"
-                    value={formData.customerName}
-                    onChange={handleChange}
+                    onChange={(e) => setCustomerName(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -1075,8 +1044,7 @@ function BillingInvoice() {
                     type="text"
                     placeholder="Enter city"
                     name="customerCity"
-                    value={formData.customerCity}
-                    onChange={handleChange}
+                    onChange={(e) => setCustomerCity(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -1088,7 +1056,7 @@ function BillingInvoice() {
                     placeholder="Enter telephone"
                     name="customerTel"
                     value={formData.customerTel}
-                    onChange={handleChange}
+                    onChange={(e) => setcCustomerTel(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -1286,8 +1254,6 @@ function BillingInvoice() {
               </div>
             </div>
             <div className="d-flex justify-content-end gap-3">
-              {/* <Button variant="primary">All Transactions</Button>
-              <Button variant="primary">Notify Owner</Button> */}
               <Button variant="danger" onClick={clearAllData}>
                 Clear
               </Button>
@@ -1296,7 +1262,6 @@ function BillingInvoice() {
               </Button>
             </div>
             <div>
-              {/* Invoice Preview Modal */}
               <InvoicePreview
                 show={showInvoiceModal}
                 handleClose={handleCloseModal}

@@ -237,7 +237,7 @@ function NavigationBar() {
             </NavLink>
           </>
         )}
-        {role === "cahier" && (
+        {role === "cashier" && (
           <>
             <NavLink
               to="/billing"
