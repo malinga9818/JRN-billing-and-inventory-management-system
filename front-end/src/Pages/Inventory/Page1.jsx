@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Card,
   Dropdown,
   DropdownButton,
   Table,
   Button,
+  Row,
+  Col,
   Modal,
   Form,
   Breadcrumb,
@@ -31,7 +34,7 @@ const Page1 = () => {
   const [stock, setStock] = useState([
     {
       id: "01",
-      name: "Sample Data",
+      name: "Tile Roofing",
       qty: 1000,
       unit: "Ft",
       color: "Blue",
@@ -40,7 +43,7 @@ const Page1 = () => {
     },
     {
       id: "02",
-      name: "Sample Data",
+      name: "Gutter",
       qty: 0,
       unit: "Ft",
       color: "Autom Red",
@@ -49,7 +52,7 @@ const Page1 = () => {
     },
     {
       id: "03",
-      name: "Sample Data",
+      name: "End Cap",
       qty: 250,
       unit: "Nos",
       color: "Green",
@@ -58,7 +61,7 @@ const Page1 = () => {
     },
     {
       id: "04",
-      name: "Sample Data",
+      name: "Ridge Cover",
       qty: 0,
       unit: "Ft",
       color: "Chocolate Brown",
@@ -159,112 +162,113 @@ const Page1 = () => {
     } else {
       setHeading("AVAILABLE STOCK");
     }
-  };const filteredStock = stock.filter((item) => {
+  }; const filteredStock = stock.filter((item) => {
     const matchesHeading =
       heading === "AVAILABLE STOCK"
         ? true
         : heading === "OUT OF STOCKS ITEMS"
-        ? item.qty === 0
-        : heading === "RE-ORDER ITEMS"
-        ? item.qty < item.reorderLevel
-        : true;
-  
+          ? item.qty === 0
+          : heading === "RE-ORDER ITEMS"
+            ? item.qty < item.reorderLevel
+            : true;
+
     const matchesColor =
       selectedColor === "All Colors" ? true : item.color === selectedColor;
-  
+
     const matchesGauge =
       selectedGauge === "All Gauges" ? true : item.gauge === selectedGauge;
-  
+
     const searchByName = item.name.toLowerCase().includes(searchTerm.toLowerCase());
     const searchByColor = item.color.toLowerCase().includes(searchTerm.toLowerCase());
-  
+
     // combine all conditions
     return (
       matchesHeading &&
       matchesColor &&
       matchesGauge &&
-      (searchByName || searchByColor) 
+      (searchByName || searchByColor)
     );
   });
 
   return (
     <div className="px-3">
+
       <div className="d-flex align-items-center justify-content-between">
+
         <Breadcrumb>
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
             JRN
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>Inventory</Breadcrumb.Item>
+
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/inventory" }}>
+            Inventory
+          </Breadcrumb.Item>
+
+          <Breadcrumb.Item active>Stock Details</Breadcrumb.Item>
         </Breadcrumb>
-        <div className="position-relative mb-3">
+
+        <h3 className="text-center">Inventory Management</h3>
+
+        <div className="mb-3 position-relative">
           <Form.Control
             type="text"
-            placeholder="search by name or color"
+            placeholder="Search by name or color"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-80 rounded-md ps-5 border border-black-300"
+            className="border rounded-md w-80 ps-5 border-black-300"
           />
         </div>
+
       </div>
 
-      <div className="mb-4 text-center d-flex justify-content-evenly">
-        <Card
-          border="info"
-          style={{
-            width: "15rem",
-            backgroundColor: "#64748b",
-            color: "#fff",
-            cursor: "pointer",
-          }}
-          onClick={() => handleCardClick("Available Stock")}
-        >
-          <Card.Body>
-            <Card.Title>Available Stock</Card.Title>
-          </Card.Body>
-        </Card>
 
-        <Card
-          border="info"
-          style={{
-            width: "15rem",
-            backgroundColor: "#64748b",
-            color: "#fff",
-            cursor: "pointer",
-          }}
-          onClick={() => handleCardClick("Out Of Stocks")}
-        >
-          <Card.Body>
-            <Card.Title>Out Of Stocks</Card.Title>
-            <Card.Subtitle>
-              {stock.filter((item) => item.qty === 0).length}
-            </Card.Subtitle>
-          </Card.Body>
-        </Card>
 
-        <Card
-          border="info"
-          style={{
-            width: "15rem",
-            backgroundColor: "#64748b",
-            color: "#fff",
-            cursor: "pointer",
-          }}
-          onClick={() => handleCardClick("Re-Order Items")}
-        >
-          <Card.Body>
-            <Card.Title>Re-Order Items</Card.Title>
-            <Card.Subtitle>
-              {stock.filter((item) => item.qty < item.reorderLevel).length}
-            </Card.Subtitle>
-          </Card.Body>
+
+      <div >
+        <Card className="mx-2 mb-3">
+          <Row className="justify-around p-2 text-center rounded-lg bg-light d-flex">
+
+            {/* <Col lg={3} md={6} sm={12}>
+        <Card className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer h-100 hover:scale-105">
+        </Card>
+      </Col> */}
+
+            <Col lg={3} md={6} sm={12}>
+              <Card border="info" className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer d-flex justify-content-center align-items-center h-100 hover:scale-105"
+                onClick={() => handleCardClick("Available Stock")}
+              >
+                <h5 className="font-semibold text-blue-600">Available Stock</h5>
+              </Card>
+            </Col>
+
+            <Col lg={3} md={6} sm={12}>
+              <Card border="info" className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer h-100 hover:scale-105"
+                onClick={() => handleCardClick("Out Of Stocks")}
+              >
+                <h5 className="font-semibold text-green-600">Out of Stocks</h5>
+                <p className="text-4xl font-bold">{stock.filter((item) => item.qty === 0).length}</p>
+              </Card>
+            </Col>
+
+            <Col lg={3} md={6} sm={12}>
+              <Card border="info" className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer h-100 hover:scale-105"
+                onClick={() => handleCardClick("Re-Order Items")}
+              >
+                <h5 className="font-semibold text-yellow-600">Re-Order Items</h5>
+                <p className="text-4xl font-bold">{stock.filter((item) => item.qty < item.reorderLevel).length}</p>
+              </Card>
+            </Col>
+
+          </Row>
         </Card>
       </div>
+
 
       {/* Stock Table */}
       <div>
         <h5 className="mb-3">{heading}</h5>
 
-        <div className="d-flex gap-2 mb-4">
+        <div className="gap-2 mb-4 d-flex">
           <DropdownButton
             id="color-dropdown"
             title={selectedColor}
@@ -458,17 +462,32 @@ const Page1 = () => {
             </Form>
           )}
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" onClick={handleModalClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleFormSubmit}>
-            {modalAction}
-          </Button>
+          {modalAction === "Delete" ? (
+            <Button
+              variant="primary"
+              onClick={() => handleFormSubmit()}
+            >
+              Yes
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              onClick={() => handleFormSubmit()}
+            >
+              {modalAction === "Update" ? "Save" : "Add"}
+            </Button>
+          )}
         </Modal.Footer>
+
       </Modal>
     </div>
   );
 };
 
 export default Page1;
+
