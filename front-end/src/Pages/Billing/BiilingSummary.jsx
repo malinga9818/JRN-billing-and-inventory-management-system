@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Breadcrumb,
   Button,
@@ -9,6 +9,7 @@ import {
   Table,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import Dropdowns from "../../Components/Dropdowns";
 
@@ -64,13 +65,28 @@ const dummyTransaction = [
 
 function BillingSummary() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [transactions, setTransactions] = useState([]);
 
-  const filteredTransactions = dummyTransaction.filter(
+  useEffect(() => {
+    const fetchInvoices = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/invoices");
+        setTransactions(response.data); // Assuming backend sends an array of invoices
+      } catch (error) {
+        console.error("Error fetching invoices:", error.message);
+      }
+    };
+
+    fetchInvoices();
+  }, []);
+
+  const filteredTransactions = transactions.filter(
     (transaction) =>
       transaction.invoiceNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      transaction.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.customerName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       transaction.status.toLowerCase().includes(searchTerm.toLowerCase())
-
   );
   return (
     <div className="container">
@@ -141,13 +157,13 @@ function BillingSummary() {
           </tr>
         </thead>
         <tbody>
-          {filteredTransactions.map((transaction) => (
-            <tr key={transaction.invoiceNo}>
-              <td>{transaction.invoiceNo}</td>
+          {filteredTransactions.map((transaction, i) => (
+            <tr key={transaction._id}>
+              <td>{`INVO-${String(i + 1).padStart(2, "0")}`}</td>{" "}
               <td>{transaction.customerName}</td>
-              <td>{transaction.dateTime}</td>
-              <td className="text-center">{transaction.noOfItems}</td>
-              <td>{transaction.amount}</td>
+              <td>{`${transaction.date} ${transaction.time}`}</td>
+              <td className="text-center">{transaction.products.length}</td>
+              <td>{`LKR ${transaction.totals.grandTotal}`}</td>
               <td>{transaction.status}</td>
             </tr>
           ))}

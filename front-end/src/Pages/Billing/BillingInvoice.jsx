@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Breadcrumb, Button, Col, Form, Row, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import InvoicePreview from "./InvoicePreview";
-import axios from 'axios';
-
+import axios from "axios";
 
 function BillingInvoice() {
   const [productData, setProductData] = useState([]);
@@ -100,7 +99,6 @@ function BillingInvoice() {
   //*********************************************************************** invoice preview */
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
 
-
   const invoiceData = {
     date: new Date().toLocaleDateString(), // fromt is MM/DD/YYYY
     time: new Date().toLocaleTimeString(), // format is HH:MM:SS AM/PM
@@ -111,7 +109,6 @@ function BillingInvoice() {
     totals,
   };
   const handlePreviewClick = async () => {
-    setShowInvoiceModal(true);
     const invoicePayload = {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
@@ -120,22 +117,26 @@ function BillingInvoice() {
         address: customerCity,
         telephone: customerTel,
       },
-      products: productData,
-      totals,
+      products: productData, // All products in a single array
+      totals, // Subtotal, discounts, and grand total
     };
-  
+
     try {
-      const response = await axios.post('http://localhost:8000/api/invoices', invoicePayload);
-      console.log('Invoice saved:', response.data);
+      const response = await axios.post(
+        "http://localhost:8000/api/invoices",
+        invoicePayload
+      );
+      console.log("Invoice saved:", response.data);
       setShowInvoiceModal(true);
     } catch (error) {
-      console.error('Error saving invoice:', error.response?.data || error.message);
+      console.error(
+        "Error saving invoice:",
+        error.response?.data || error.message
+      );
     }
   };
-  
 
   const handleCloseModal = () => setShowInvoiceModal(false);
-
 
   const clearAllData = () => {
     setFormData({

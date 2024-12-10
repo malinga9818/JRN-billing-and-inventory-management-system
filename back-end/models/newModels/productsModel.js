@@ -11,4 +11,4 @@ const productSchema = new mongoose.Schema({
   total: { type: Number, required: true },
 });
 
-export default mongoose.model('Products-inorder', productSchema);
+export default mongoose.model('Products-invoice', productSchema);
