@@ -98,7 +98,7 @@ function NavigationBar() {
 
   return (
     <Nav className="flex flex-col justify-between h-full p-4 bg-gray-800">
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col justify-between gap-20">
         <h6>
           <Link
             to="/"
@@ -161,18 +161,6 @@ function NavigationBar() {
             >
               User
             </NavLink>
-            <NavLink
-              to="/setting"
-              className={({ isActive }) =>
-                `text-lg transition-all duration-300 ${
-                  isActive
-                    ? "bg-white text-gray-800 font-bold px-4 py-2 rounded-md no-underline"
-                    : "text-white no-underline"
-                }`
-              }
-            >
-              Setting
-            </NavLink>
           </>
         )}
         {role === "owner" && (
@@ -223,18 +211,6 @@ function NavigationBar() {
             >
               User
             </NavLink>
-            <NavLink
-              to="/setting"
-              className={({ isActive }) =>
-                `text-lg transition-all duration-300 ${
-                  isActive
-                    ? "bg-white text-gray-800 font-bold px-4 py-2 rounded-md no-underline"
-                    : "text-white no-underline"
-                }`
-              }
-            >
-              Setting
-            </NavLink>
           </>
         )}
         {role === "cashier" && (
@@ -277,12 +253,6 @@ function NavigationBar() {
               }}
             >
               User
-            </NavLink>
-            <NavLink
-              to="/setting"
-              className="text-lg transition-all duration-300 text-white no-underline "
-            >
-              Setting
             </NavLink>
           </>
         )}

@@ -17,7 +17,7 @@ function AllTransactions() {
   const [showModal, setShowModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const transactionsPerPage = 9; // Set to 9 records per page
+  const transactionsPerPage = 9; // set to 9 records per page
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,10 +32,9 @@ function AllTransactions() {
 
     fetchInvoices();
 
-    // Polling to fetch data periodically
-    const interval = setInterval(fetchInvoices, 5000); // Fetch every 5 seconds
+    const interval = setInterval(fetchInvoices, 5000); // fetch every 5 seconds
 
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handleEditTransaction = (transaction) => {
@@ -77,12 +76,12 @@ function AllTransactions() {
   const filteredTransactions = transactions.filter((transaction) => {
     const invoiceNo = transaction.invoiceNo || "";
     const customerName = transaction.customerName || "";
-    const status = transaction.status || "";
+    const paymentStatus = transaction.paymentStatus || ""; // change to paymentStatus
 
     return (
       invoiceNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      status.toLowerCase().includes(searchTerm.toLowerCase())
+      paymentStatus.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
@@ -138,24 +137,36 @@ function AllTransactions() {
         <tbody>
           {currentTransactions.map((transaction, i) => (
             <tr key={transaction._id}>
-              <td>{`INVO-${String(i + 1 + indexOfFirstTransaction).padStart(2, "0")}`}</td>
+              <td>{`INVO-${String(i + 1 + indexOfFirstTransaction).padStart(
+                2,
+                "0"
+              )}`}</td>
               <td>{transaction.customerName || "Unknown"}</td>
-              <td>{`${transaction.date || "N/A"} ${transaction.time || "N/A"}`}</td>
+              <td>{`${transaction.date || "N/A"} ${
+                transaction.time || "N/A"
+              }`}</td>
               <td>{`LKR ${transaction.totals?.subtotal || 0}`}</td>
               <td>{`LKR ${transaction.totals?.totalDiscount || 0}`}</td>
               <td>{`LKR ${transaction.totals?.grandTotal || 0}`}</td>
-              <td className="text-center">{transaction.status || "N/A"}</td>
+              <td className="text-center">
+                {transaction.paymentStatus || "N/A"}
+              </td>{" "}
               <td className="d-flex justify-content-center">
                 <Dropdown drop="start">
                   <Dropdown.Toggle variant="secondary" size="sm">
                     <i className="bi bi-three-dots-vertical"></i>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => handleEditTransaction(transaction)}>
+                    <Dropdown.Item
+                      onClick={() => handleEditTransaction(transaction)}
+                    >
                       <i className="bi bi-pencil-fill me-2"></i>
                       Edit
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleShowModal(transaction)} className="text-danger">
+                    <Dropdown.Item
+                      onClick={() => handleShowModal(transaction)}
+                      className="text-danger"
+                    >
                       <i className="bi bi-trash-fill me-2"></i>
                       Delete
                     </Dropdown.Item>
@@ -169,19 +180,32 @@ function AllTransactions() {
 
       <div className="d-flex justify-content-end mt-3">
         <Pagination>
-          <Pagination.Prev onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} />
-          {Array.from({ length: Math.ceil(filteredTransactions.length / transactionsPerPage) }, (_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => paginate(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
-          ))}
+          <Pagination.Prev
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          />
+          {Array.from(
+            {
+              length: Math.ceil(
+                filteredTransactions.length / transactionsPerPage
+              ),
+            },
+            (_, index) => (
+              <Pagination.Item
+                key={index + 1}
+                active={index + 1 === currentPage}
+                onClick={() => paginate(index + 1)}
+              >
+                {index + 1}
+              </Pagination.Item>
+            )
+          )}
           <Pagination.Next
             onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === Math.ceil(filteredTransactions.length / transactionsPerPage)}
+            disabled={
+              currentPage ===
+              Math.ceil(filteredTransactions.length / transactionsPerPage)
+            }
           />
         </Pagination>
       </div>

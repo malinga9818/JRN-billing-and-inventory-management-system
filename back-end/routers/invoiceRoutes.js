@@ -25,7 +25,7 @@ router.post("/invoices", async (req, res) => {
       customer: savedCustomer._id,
       products: savedProducts.map((product) => product._id),
       totals,
-      paymentStatus, // Add paymentStatus
+      paymentStatus, 
     });
 
     const savedInvoice = await newInvoice.save();
@@ -43,8 +43,8 @@ router.post("/invoices", async (req, res) => {
 router.get("/invoices", async (req, res) => {
   try {
     const invoices = await Invoice.find()
-      .populate("customer", "name") // Populate customer details
-      .populate("products", "name price"); // Populate product details
+      .populate("customer", "name") // populate customer details
+      .populate("products", "name price"); // populate product details
 
     const formattedInvoices = invoices.map((invoice) => ({
       invoiceNo: invoice._id,
@@ -53,7 +53,7 @@ router.get("/invoices", async (req, res) => {
       time: invoice.time,
       products: invoice.products,
       totals: invoice.totals,
-      paymentStatus: invoice.paymentStatus, // Ensure paymentStatus is included
+      paymentStatus: invoice.paymentStatus, // paymentStatus is included
     }));
 
     res.status(200).json(formattedInvoices);

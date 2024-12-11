@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Breadcrumb, Button, Col, Form, Row, Table } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import InvoicePreview from "./InvoicePreview";
 import axios from "axios";
 
@@ -20,7 +20,7 @@ function BillingInvoice() {
 
   const [customerName, setCustomerName] = useState("");
   const [customerCity, setCustomerCity] = useState("");
-  const [customerTel, setcCustomerTel] = useState("");
+  const [customerTel, setCustomerTel] = useState("");
   const [paymentStatus, setPaymentStatus] = useState("");
 
   const handlePaymentStatusChange = (e) => {
@@ -33,7 +33,8 @@ function BillingInvoice() {
     totalDiscount: 0,
     grandTotal: 0,
   });
-  // hanle form input change when add invoice data
+
+  // handle form input change when adding invoice data
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -42,7 +43,7 @@ function BillingInvoice() {
     }));
   };
 
-  const clearForm = () => {
+  const clearProductForm = () => {
     setFormData({
       category: "",
       product: "",
@@ -56,16 +57,15 @@ function BillingInvoice() {
     });
   };
 
-  // adding or update product in the table
+  // adding or updating product in the table
   const handleAddOrUpdateProduct = (e) => {
-    setShowDataTable(true);
     const { qty, uPrice, discount, editIndex } = formData;
     const totalBeforeDiscount = Number(qty) * Number(uPrice);
     const total =
       totalBeforeDiscount - (totalBeforeDiscount * Number(discount)) / 100;
 
     if (editIndex !== null) {
-      // If editing an existing product the we can update it
+      // If editing an existing product, we can update it
       const updatedProductData = [...productData];
       updatedProductData[editIndex] = { ...formData, total };
       setProductData(updatedProductData);
@@ -75,10 +75,12 @@ function BillingInvoice() {
       const newProductData = [...productData, { ...formData, total }];
       setProductData(newProductData);
       calculateTotals(newProductData);
+      setShowDataTable(true); // Show the data table after adding the first item
     }
-    clearForm();
+    clearProductForm(); 
   };
-  // Calculate totals dynamically when add item continueously
+
+  // Calculate totals dynamically when adding items continuously
   const calculateTotals = (products) => {
     const updatedTotals = products.reduce(
       (acc, product) => {
@@ -93,7 +95,7 @@ function BillingInvoice() {
     setTotals(updatedTotals);
   };
 
-  // this for andle editing a product
+  // this for handling editing a product
   const handleEditProduct = (index) => {
     const product = productData[index];
     setFormData({
@@ -101,11 +103,12 @@ function BillingInvoice() {
       editIndex: index, // Set the index to edit
     });
   };
-  //*********************************************************************** invoice preview */
+
+  //*********************************************************************
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
 
   const invoiceData = {
-    date: new Date().toLocaleDateString(), // fromt is MM/DD/YYYY
+    date: new Date().toLocaleDateString(), // format is MM/DD/YYYY
     time: new Date().toLocaleTimeString(), // format is HH:MM:SS AM/PM
     customerName: customerName,
     customerCity: customerCity,
@@ -113,6 +116,7 @@ function BillingInvoice() {
     products: productData,
     totals,
   };
+
   const handlePreviewClick = async () => {
     const invoicePayload = {
       date: new Date().toLocaleDateString(),
@@ -122,8 +126,8 @@ function BillingInvoice() {
         address: customerCity,
         telephone: customerTel,
       },
-      products: productData, // All products in a single array
-      totals, // Subtotal, discounts, and grand total
+      products: productData, // this for all products in single array
+      totals, // subtotal , discounts, and grand total
       paymentStatus,
     };
 
@@ -146,9 +150,6 @@ function BillingInvoice() {
 
   const clearAllData = () => {
     setFormData({
-      customerName: "",
-      customerCity: "",
-      customerTel: "",
       category: "",
       product: "",
       gauge: "",
@@ -159,13 +160,17 @@ function BillingInvoice() {
       discount: "",
       editIndex: null,
     });
-    setProductData([]); // clear all product
+    setProductData([]); 
 
     setTotals({
       subtotal: 0,
       totalDiscount: 0,
       grandTotal: 0,
     });
+    setCustomerName(""); 
+    setCustomerCity(""); 
+    setCustomerTel(""); 
+    setShowDataTable(false); 
   };
 
   const productNames = [
@@ -188,8 +193,7 @@ function BillingInvoice() {
 
   const [showDataTable, setShowDataTable] = useState(false);
   return (
-    <div className="contariner ">
-      {" "}
+    <div className="container">
       <Breadcrumb className="ml-4">
         <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
           JRN
@@ -211,6 +215,7 @@ function BillingInvoice() {
                     type="text"
                     placeholder="Enter name"
                     name="customerName"
+                    value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                   />
                 </Form.Group>
@@ -222,6 +227,7 @@ function BillingInvoice() {
                     type="text"
                     placeholder="Enter city"
                     name="customerCity"
+                    value={customerCity}
                     onChange={(e) => setCustomerCity(e.target.value)}
                   />
                 </Form.Group>
@@ -233,8 +239,8 @@ function BillingInvoice() {
                     type="text"
                     placeholder="Enter telephone"
                     name="customerTel"
-                    value={formData.customerTel}
-                    onChange={(e) => setcCustomerTel(e.target.value)}
+                    value={customerTel}
+                    onChange={(e) => setCustomerTel(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -368,7 +374,7 @@ function BillingInvoice() {
               </Col>
               <Col className="d-flex align-items-center justify-content-end mt-4">
                 <div className="d-flex gap-3">
-                  <Button variant="danger" onClick={clearForm}>
+                  <Button variant="danger" onClick={clearProductForm}>
                     Clear
                   </Button>
                   <Button variant="primary" onClick={handleAddOrUpdateProduct}>
@@ -422,7 +428,6 @@ function BillingInvoice() {
                 <div className="d-flex align-items justify-content-end gap-10 pl-6">
                   <div className="d-flex align-items-center gap-2">
                     <Form className="px-4 py-2 bg-white shadow rounded">
-                      {/* Payment Status Dropdown */}
                       <Form.Group controlId="paymentStatus" className="mt-3">
                         <Form.Label>Payment Status</Form.Label>
                         <Form.Control

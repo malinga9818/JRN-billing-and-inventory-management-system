@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Button, Card, Col, Form, Row, Table } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Form,
+  Row,
+  Table,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Dropdowns from "../../Components/Dropdowns";
@@ -15,13 +23,13 @@ function BillingSummary({ setActiveKey }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [transactions, setTransactions] = useState([]);
 
-  // Fetch invoices initially and set up polling
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/invoices");
-        // Sort transactions by date descending after fetching
-        const sortedData = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const sortedData = response.data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
         setTransactions(sortedData);
       } catch (error) {
         console.error("Error fetching invoices:", error.message);
@@ -30,16 +38,15 @@ function BillingSummary({ setActiveKey }) {
 
     fetchInvoices();
 
-    // Polling to fetch data periodically
-    const interval = setInterval(fetchInvoices, 5000); // Fetch every 5 seconds
+    const interval = setInterval(fetchInvoices, 5000);
 
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const filteredTransactions = transactions.filter((transaction) => {
-    const invoiceNo = transaction.invoiceNo || ""; // Default to empty string if undefined
-    const customerName = transaction.customerName || ""; // Default to empty string if undefined
-    const status = transaction.status || ""; // Default to empty string if undefined
+    const invoiceNo = transaction.invoiceNo || "";
+    const customerName = transaction.customerName || "";
+    const status = transaction.status || "";
 
     return (
       invoiceNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -48,15 +55,20 @@ function BillingSummary({ setActiveKey }) {
     );
   });
 
-  // Get the most recent 5 transactions
   const recentTransactions = filteredTransactions.slice(0, 5);
 
   return (
     <div className="container">
       <div className="d-flex align-items-center justify-content-between">
         <Breadcrumb>
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}> JRN </Breadcrumb.Item>
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/billing" }}> Billing </Breadcrumb.Item>
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
+            {" "}
+            JRN{" "}
+          </Breadcrumb.Item>
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/billing" }}>
+            {" "}
+            Billing{" "}
+          </Breadcrumb.Item>
           <Breadcrumb.Item active>Overview</Breadcrumb.Item>
         </Breadcrumb>
         <div className="position-relative mb-3">
@@ -92,7 +104,7 @@ function BillingSummary({ setActiveKey }) {
             </Card>
           </Col>
           <Col lg={3} md={6} sm={12}>
-            <Card className="shadow-md rounded-lg ">
+            <Card className="shadow-md rounded-lg p-4">
               <h5 className="text-yellow-600 font-semibold">New Customers</h5>
               <p className="text-4xl font-bold">{summaryData.newCustomers}</p>
             </Card>
@@ -103,7 +115,10 @@ function BillingSummary({ setActiveKey }) {
       <div className="flex justify-between items-center mx-2 mt-10 mb-2">
         <h5 className="">Recent Transactions</h5>
         <div className="flex gap-3">
-          <Button variant="primary" onClick={() => setActiveKey("BillingInvoice")}>
+          <Button
+            variant="primary"
+            onClick={() => setActiveKey("BillingInvoice")}
+          >
             New Invoice
           </Button>
         </div>
@@ -126,18 +141,25 @@ function BillingSummary({ setActiveKey }) {
             <tr key={transaction._id}>
               <td>{`INVO-${String(i + 1).padStart(2, "0")}`}</td>
               <td>{transaction.customerName || "Unknown"}</td>
-              <td>{`${transaction.date || "N/A"} ${transaction.time || "N/A"}`}</td>
+              <td>{`${transaction.date || "N/A"} ${
+                transaction.time || "N/A"
+              }`}</td>
               <td>{`LKR ${transaction.totals?.subtotal || 0}`}</td>
               <td>{`LKR ${transaction.totals?.totalDiscount || 0}`}</td>
               <td>{`LKR ${transaction.totals?.grandTotal || 0}`}</td>
-              <td>{transaction.status || "N/A"}</td>
+              <td className="text-center">
+                {transaction.paymentStatus || "N/A"}
+              </td>{" "}
             </tr>
           ))}
         </tbody>
       </Table>
 
       <div className="d-flex justify-content-end mt-2">
-        <Button variant="primary" onClick={() => setActiveKey("AllTrasnsactions")}>
+        <Button
+          variant="primary"
+          onClick={() => setActiveKey("AllTrasnsactions")}
+        >
           All Transactions
         </Button>
       </div>
