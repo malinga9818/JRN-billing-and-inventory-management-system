@@ -52,7 +52,7 @@ router.get("/invoices", async (req, res) => {
       time: invoice.time,
       products: invoice.products,
       totals: invoice.totals,
-      status: "Paid", 
+      status: "Paid",
     }));
 
     res.status(200).json(formattedInvoices);
@@ -60,6 +60,36 @@ router.get("/invoices", async (req, res) => {
     res
       .status(500)
       .json({ message: "Error retrieving invoices", error: error.message });
+  }
+});
+
+router.put("/invoices/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    const updatedInvoice = await Invoice.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    });
+    res
+      .status(200)
+      .json({ message: "Invoice updated successfully", updatedInvoice });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error updating invoice", error: error.message });
+  }
+});
+
+router.delete("/invoices/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Invoice.findByIdAndDelete(id);
+    res.status(200).json({ message: "Invoice deleted successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error deleting invoice", error: error.message });
   }
 });
 

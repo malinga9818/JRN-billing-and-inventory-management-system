@@ -5,19 +5,23 @@ import {
   Dropdown,
   Form,
   Table,
+  Modal,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AllTransactions() {
   const [searchTerm, setSearchTerm] = useState("");
   const [transactions, setTransactions] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/invoices");
-        setTransactions(response.data); //here backend send array of invoices
+        setTransactions(response.data);
       } catch (error) {
         console.error("Error fetching invoices:", error.message);
       }
@@ -27,13 +31,39 @@ function AllTransactions() {
   }, []);
 
   const handleEditTransaction = (transaction) => {
-    console.log("Edit Transaction:", transaction);
-    //edit functionality
+    navigate(`/edit-transaction/${transaction.invoiceNo}`, {
+      state: { transaction },
+    });
   };
 
-  const handleDeleteTransaction = (transactionId) => {
-    console.log("Delete Transaction:", transactionId);
-    // delete functionality
+  const handleDeleteTransaction = async () => {
+    if (selectedTransaction) {
+      try {
+        await axios.delete(
+          `http://localhost:8000/api/invoices/${selectedTransaction.invoiceNo}`
+        );
+        setTransactions((prev) =>
+          prev.filter(
+            (transaction) =>
+              transaction.invoiceNo !== selectedTransaction.invoiceNo
+          )
+        );
+      } catch (error) {
+        console.error("Error deleting transaction:", error.message);
+        alert("Failed to delete the transaction.");
+      }
+      setShowModal(false);
+    }
+  };
+
+  const handleShowModal = (transaction) => {
+    setSelectedTransaction(transaction);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedTransaction(null);
   };
 
   const filteredTransactions = transactions.filter(
@@ -103,7 +133,7 @@ function AllTransactions() {
                         Edit
                       </Dropdown.Item>
                       <Dropdown.Item
-                        onClick={() => handleDeleteTransaction(transaction._id)}
+                        onClick={() => handleShowModal(transaction)}
                         className="text-danger"
                       >
                         <i className="bi bi-trash-fill me-2"></i>
@@ -117,6 +147,23 @@ function AllTransactions() {
           </tbody>
         </Table>
       </div>
+
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this transaction?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteTransaction}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       <div className="d-flex justify-content-end mt-2">
         <Button variant="primary">All Transactions</Button>
