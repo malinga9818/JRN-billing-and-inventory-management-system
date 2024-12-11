@@ -44,6 +44,8 @@ router.get("/invoices", async (req, res) => {
     const invoices = await Invoice.find()
       .populate("customer", "name") // this populate customer details
       .populate("products", "name price"); // this ppulate product details
+      await Invoice.find()
+      
 
     const formattedInvoices = invoices.map((invoice) => ({
       invoiceNo: invoice._id,
@@ -56,6 +58,7 @@ router.get("/invoices", async (req, res) => {
     }));
 
     res.status(200).json(formattedInvoices);
+  
   } catch (error) {
     res
       .status(500)

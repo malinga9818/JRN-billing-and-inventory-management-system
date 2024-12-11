@@ -34,7 +34,7 @@ import employeeRouter from "./routers/userRouters/employeeRouter.js";
 app.use("/api/employees", employeeRouter);
 
 import grantAccessRoutes from "./routers/userRouters/grantAccessRouter.js"; // Adjust the path as ne
-app.use("/api", grantAccessRoutes); 
+app.use("/api", grantAccessRoutes);
 
-import invoiceRoutes from './routers/invoiceRoutes.js';
+import invoiceRoutes from "./routers/invoiceRoutes.js";
 app.use("/api", invoiceRoutes);

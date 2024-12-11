@@ -6,6 +6,7 @@ import {
   Form,
   Table,
   Modal,
+  Pagination,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,6 +16,8 @@ function AllTransactions() {
   const [transactions, setTransactions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [transactionsPerPage] = useState(9); // Updated to 9 records per page
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +31,11 @@ function AllTransactions() {
     };
 
     fetchInvoices();
+
+    // Polling to fetch data periodically
+    const interval = setInterval(fetchInvoices, 5000); // Fetch every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup on component unmount
   }, []);
 
   const handleEditTransaction = (transaction) => {
@@ -75,9 +83,19 @@ function AllTransactions() {
       transaction.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Pagination logic
+  const indexOfLastTransaction = currentPage * transactionsPerPage;
+  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
+  const currentTransactions = filteredTransactions.slice(
+    indexOfFirstTransaction,
+    indexOfLastTransaction
+  );
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="container">
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center justify-content-between mb-3">
         <Breadcrumb>
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
             JRN
@@ -87,39 +105,43 @@ function AllTransactions() {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>All Transactions</Breadcrumb.Item>
         </Breadcrumb>
-        <div className="position-relative mb-3">
+        <div className="position-relative">
           <Form.Control
             type="text"
             placeholder="Search transaction"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-80 rounded-md ps-5 border border-black-300"
+            className="w-75 rounded-md ps-5 border border-dark"
           />
         </div>
       </div>
 
-      <div style={{ maxHeight: "75vh", overflowY: "auto" }}>
+      <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
         <Table bordered hover responsive>
           <thead>
             <tr>
               <th>Invoice No</th>
               <th>Customer Name</th>
               <th>Date & Time</th>
-              <th>No of Products</th>
+              <th>Subtotal</th>
+              <th>Discount</th>
               <th>Amount</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredTransactions.map((transaction, i) => (
+            {currentTransactions.map((transaction, i) => (
               <tr key={transaction._id}>
-                <td>{`INVO-${String(i + 1).padStart(2, "0")}`}</td>
-                <td>{transaction.customerName}</td>
-                <td>{`${transaction.date} ${transaction.time}`}</td>
-                <td className="text-center">{transaction.products.length}</td>
-                <td>{`LKR ${transaction.totals.grandTotal}`}</td>
-                <td>{transaction.status}</td>
+                <td>{transaction.invoiceNo}</td>
+                <td>{transaction.customerName || "Unknown"}</td>
+                <td>{`${transaction.date || "N/A"} ${
+                  transaction.time || "N/A"
+                }`}</td>
+                <td>{`LKR ${transaction.totals?.subtotal || 0}`}</td>
+                <td>{`LKR ${transaction.totals?.totalDiscount || 0}`}</td>
+                <td>{`LKR ${transaction.totals?.grandTotal || 0}`}</td>
+                <td>{transaction.status || "N/A"}</td>
                 <td>
                   <Dropdown drop="start">
                     <Dropdown.Toggle variant="secondary">
@@ -148,6 +170,39 @@ function AllTransactions() {
         </Table>
       </div>
 
+      {/* Pagination controls */}
+      <div className="d-flex justify-content-end">
+        <Pagination>
+          <Pagination.Prev
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          />
+          {Array.from(
+            {
+              length: Math.ceil(
+                filteredTransactions.length / transactionsPerPage
+              ),
+            },
+            (_, index) => (
+              <Pagination.Item
+                key={index + 1}
+                active={index + 1 === currentPage}
+                onClick={() => paginate(index + 1)}
+              >
+                {index + 1}
+              </Pagination.Item>
+            )
+          )}
+          <Pagination.Next
+            onClick={() => paginate(currentPage + 1)}
+            disabled={
+              currentPage ===
+              Math.ceil(filteredTransactions.length / transactionsPerPage)
+            }
+          />
+        </Pagination>
+      </div>
+
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
@@ -164,10 +219,6 @@ function AllTransactions() {
           </Button>
         </Modal.Footer>
       </Modal>
-
-      <div className="d-flex justify-content-end mt-2">
-        <Button variant="primary">All Transactions</Button>
-      </div>
     </div>
   );
 }
