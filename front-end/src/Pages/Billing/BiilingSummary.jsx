@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  Form,
-  Row,
-  Table,
-} from "react-bootstrap";
+import { Breadcrumb, Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Dropdowns from "../../Components/Dropdowns";
@@ -44,14 +36,17 @@ function BillingSummary({ setActiveKey }) {
     return () => clearInterval(interval); // Cleanup on component unmount
   }, []);
 
-  const filteredTransactions = transactions.filter(
-    (transaction) =>
-      transaction.invoiceNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      transaction.customerName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      transaction.status.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTransactions = transactions.filter((transaction) => {
+    const invoiceNo = transaction.invoiceNo || ""; // Default to empty string if undefined
+    const customerName = transaction.customerName || ""; // Default to empty string if undefined
+    const status = transaction.status || ""; // Default to empty string if undefined
+
+    return (
+      invoiceNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      status.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   // Get the most recent 5 transactions
   const recentTransactions = filteredTransactions.slice(0, 5);
@@ -60,12 +55,8 @@ function BillingSummary({ setActiveKey }) {
     <div className="container">
       <div className="d-flex align-items-center justify-content-between">
         <Breadcrumb>
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
-            JRN
-          </Breadcrumb.Item>
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/billing" }}>
-            Billing
-          </Breadcrumb.Item>
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}> JRN </Breadcrumb.Item>
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/billing" }}> Billing </Breadcrumb.Item>
           <Breadcrumb.Item active>Overview</Breadcrumb.Item>
         </Breadcrumb>
         <div className="position-relative mb-3">
@@ -101,7 +92,7 @@ function BillingSummary({ setActiveKey }) {
             </Card>
           </Col>
           <Col lg={3} md={6} sm={12}>
-            <Card className="shadow-md rounded-lg p-4 transition-transform duration-200 hover:scale-105">
+            <Card className="shadow-md rounded-lg ">
               <h5 className="text-yellow-600 font-semibold">New Customers</h5>
               <p className="text-4xl font-bold">{summaryData.newCustomers}</p>
             </Card>
@@ -112,10 +103,7 @@ function BillingSummary({ setActiveKey }) {
       <div className="flex justify-between items-center mx-2 mt-10 mb-2">
         <h5 className="">Recent Transactions</h5>
         <div className="flex gap-3">
-          <Button
-            variant="primary"
-            onClick={() => setActiveKey("BillingInvoice")}
-          >
+          <Button variant="primary" onClick={() => setActiveKey("BillingInvoice")}>
             New Invoice
           </Button>
         </div>
@@ -149,10 +137,7 @@ function BillingSummary({ setActiveKey }) {
       </Table>
 
       <div className="d-flex justify-content-end mt-2">
-        <Button
-          variant="primary"
-          onClick={() => setActiveKey("AllTransactions")}
-        >
+        <Button variant="primary" onClick={() => setActiveKey("AllTrasnsactions")}>
           All Transactions
         </Button>
       </div>

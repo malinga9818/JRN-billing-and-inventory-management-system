@@ -7,24 +7,25 @@ const router = express.Router();
 
 router.post("/invoices", async (req, res) => {
   try {
-    const { date, time, customer, products, totals } = req.body;
+    const { date, time, customer, products, totals, paymentStatus } = req.body;
 
-    // to save customer
+    // Save customer
     const newCustomer = new Customer(customer);
     const savedCustomer = await newCustomer.save();
 
-    // to save products
+    // Save products
     const savedProducts = await Promise.all(
       products.map((product) => new Product(product).save())
     );
 
-    // to save invoice
+    // Save invoice
     const newInvoice = new Invoice({
       date,
       time,
       customer: savedCustomer._id,
       products: savedProducts.map((product) => product._id),
       totals,
+      paymentStatus, // Add paymentStatus
     });
 
     const savedInvoice = await newInvoice.save();
@@ -42,10 +43,8 @@ router.post("/invoices", async (req, res) => {
 router.get("/invoices", async (req, res) => {
   try {
     const invoices = await Invoice.find()
-      .populate("customer", "name") // this populate customer details
-      .populate("products", "name price"); // this ppulate product details
-      await Invoice.find()
-      
+      .populate("customer", "name") // Populate customer details
+      .populate("products", "name price"); // Populate product details
 
     const formattedInvoices = invoices.map((invoice) => ({
       invoiceNo: invoice._id,
@@ -54,17 +53,16 @@ router.get("/invoices", async (req, res) => {
       time: invoice.time,
       products: invoice.products,
       totals: invoice.totals,
-      status: "Paid",
+      paymentStatus: invoice.paymentStatus, // Ensure paymentStatus is included
     }));
 
     res.status(200).json(formattedInvoices);
-  
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error retrieving invoices", error: error.message });
+    res.status(500).json({ message: "Error retrieving invoices", error: error.message });
   }
 });
+
+
 
 router.put("/invoices/:id", async (req, res) => {
   try {
@@ -74,6 +72,7 @@ router.put("/invoices/:id", async (req, res) => {
     const updatedInvoice = await Invoice.findByIdAndUpdate(id, updatedData, {
       new: true,
     });
+
     res
       .status(200)
       .json({ message: "Invoice updated successfully", updatedInvoice });

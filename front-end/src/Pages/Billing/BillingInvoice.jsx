@@ -21,6 +21,11 @@ function BillingInvoice() {
   const [customerName, setCustomerName] = useState("");
   const [customerCity, setCustomerCity] = useState("");
   const [customerTel, setcCustomerTel] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
+
+  const handlePaymentStatusChange = (e) => {
+    setPaymentStatus(e.target.value);
+  };
 
   // state for total calculation
   const [totals, setTotals] = useState({
@@ -119,6 +124,7 @@ function BillingInvoice() {
       },
       products: productData, // All products in a single array
       totals, // Subtotal, discounts, and grand total
+      paymentStatus,
     };
 
     try {
@@ -413,14 +419,33 @@ function BillingInvoice() {
             </div>
             <div className="mb-4">
               <div className="p-4 bg-gray-100 rounded">
-                <h5 className="font-semibold">Invoice Summary</h5>
-                <div className="d-flex justify-content-between">
-                  <div>
-                    <p>Subtotal: {totals.subtotal}</p>
-                    <p>Total Discount: {totals.totalDiscount}</p>
+                <div className="d-flex align-items justify-content-end gap-10 pl-6">
+                  <div className="d-flex align-items-center gap-2">
+                    <Form className="px-4 py-2 bg-white shadow rounded">
+                      {/* Payment Status Dropdown */}
+                      <Form.Group controlId="paymentStatus" className="mt-3">
+                        <Form.Label>Payment Status</Form.Label>
+                        <Form.Control
+                          as="select"
+                          value={paymentStatus}
+                          onChange={handlePaymentStatusChange}
+                        >
+                          <option value="" disabled>
+                            Select Payment Status
+                          </option>
+                          <option value="Paid">Paid</option>
+                          <option value="Unpaid">Unpaid</option>
+                          <option value="Part Paid">Part Paid</option>
+                        </Form.Control>
+                      </Form.Group>
+                    </Form>
                   </div>
                   <div>
-                    <p>Grand Total: {totals.grandTotal}</p>
+                    <h5 className="font-semibold ">Invoice Summary</h5>
+
+                    <p>Subtotal: <span className="pl-10 font-semibold">{totals.subtotal}</span></p>
+                    <p>Total Discount:<span className="pl-2 font-semibold">{totals.totalDiscount}</span></p>
+                    <p>Grand Total: <span className="pl-6 font-semibold">{totals.grandTotal}</span></p>
                   </div>
                 </div>
               </div>
