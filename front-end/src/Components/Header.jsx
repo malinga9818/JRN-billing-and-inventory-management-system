@@ -26,7 +26,7 @@ function Header({ setIsAuth }) {
         <IoIosNotificationsOutline size={25} className="cursor-pointer" />
 
         {/* Profile icon with dropdown */}
-        <div className="position-relative">
+        <div className="position-relative mr-5">
           <CgProfile
             size={30}
             onClick={handleProfileClick}
@@ -35,7 +35,7 @@ function Header({ setIsAuth }) {
           {/* Dropdown */}
           {isDropdownOpen && (
             <div
-              className="dropdown-menu show"
+              className="dropdown-menu show "
               style={{
                 position: "absolute",
                 top: "100%",

@@ -7,9 +7,9 @@ import Header from "../../Components/Header";
 import axios from "axios";
 
 const summaryData = {
-  Sales: "17",
-  Reports: "2",
-  Out: 15,
+  Sales: "12",
+  Reports: "5",
+  Out: 2,
 };
 
 const Dashboard = ({ setIsAuth }) => {
@@ -22,7 +22,7 @@ const Dashboard = ({ setIsAuth }) => {
         const sortedData = response.data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)
         );
-        setTransactions(sortedData);
+        setTransactions(sortedData.slice(0, 4)); 
       } catch (error) {
         console.error("Error fetching invoices:", error.message);
       }
@@ -30,7 +30,7 @@ const Dashboard = ({ setIsAuth }) => {
 
     fetchInvoices();
 
-    const interval = setInterval(fetchInvoices, 5000);
+    const interval = setInterval(fetchInvoices, 5000); // this for fetch invoices every 5 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -98,9 +98,7 @@ const Dashboard = ({ setIsAuth }) => {
                 <tr key={transaction._id}>
                   <td>{`INVO-${String(i + 1).padStart(2, "0")}`}</td>
                   <td>{transaction.customerName || "Unknown"}</td>
-                  <td>{`${transaction.date || "N/A"} ${
-                    transaction.time || "N/A"
-                  }`}</td>
+                  <td>{`${transaction.date || "N/A"} ${transaction.time || "N/A"}`}</td>
                   <td>{`LKR ${transaction.totals?.subtotal || 0}`}</td>
                   <td>{`LKR ${transaction.totals?.totalDiscount || 0}`}</td>
                   <td>{`LKR ${transaction.totals?.grandTotal || 0}`}</td>

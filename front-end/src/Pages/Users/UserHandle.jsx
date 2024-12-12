@@ -412,7 +412,10 @@ import {
   Form,
   Table,
   Dropdown,
+  Breadcrumb,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 
 function UserHandle() {
   const [employees, setEmployees] = useState([]);
@@ -592,11 +595,33 @@ function UserHandle() {
     }
   };
 
+  const[searchTerm,setSearchTerm]=useState("");
   return (
     <Container>
+      <div className="d-flex align-items-center justify-content-between">
+        <Breadcrumb>
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
+            {" "}
+            JRN{" "}
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>
+            {" "}
+            Users{" "}
+          </Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="position-relative mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Search users"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-80 rounded-md ps-5 border border-black-300"
+          />
+        </div>
+      </div>
       <Row>
         <Col>
-          <div className="d-flex justify-content-between align-items-center mt-4">
+          <div className="d-flex justify-content-between align-items-center mt-2">
             <h5>Users</h5>
             <Button variant="primary" onClick={handleAddEmployee}>
               Add user

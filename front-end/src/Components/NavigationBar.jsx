@@ -97,7 +97,7 @@ function NavigationBar() {
   const role = localStorage.getItem("role");
 
   return (
-    <Nav className="flex flex-col justify-between h-full p-4 bg-gray-800 sticky-top">
+    <Nav className="flex flex-col justify-between h-full px-4 pt-4 bg-gray-800 sticky-top">
       <div className="flex flex-col justify-between gap-20">
         <h6>
           <Link
@@ -161,6 +161,18 @@ function NavigationBar() {
             >
               User
             </NavLink>
+            <NavLink
+              to="/setting"
+              className={({ isActive }) =>
+                `text-lg transition-all duration-300 ${
+                  isActive
+                    ? "bg-white text-gray-800 font-bold px-4 py-2 rounded-md no-underline"
+                    : "text-white no-underline"
+                }`
+              }
+            >
+              setting
+            </NavLink>
           </>
         )}
         {role === "owner" && (
@@ -211,6 +223,18 @@ function NavigationBar() {
             >
               User
             </NavLink>
+            <NavLink
+              to="/setting"
+              className={({ isActive }) =>
+                `text-lg transition-all duration-300 ${
+                  isActive
+                    ? "bg-white text-gray-800 font-bold px-4 py-2 rounded-md no-underline"
+                    : "text-white no-underline"
+                }`
+              }
+            >
+              setting
+            </NavLink>
           </>
         )}
         {role === "cashier" && (
@@ -253,6 +277,18 @@ function NavigationBar() {
               }}
             >
               User
+            </NavLink>
+            <NavLink
+              to="/setting"
+              className={({ isActive }) =>
+                `text-lg transition-all duration-300 ${
+                  isActive
+                    ? "bg-white text-gray-800 font-bold px-4 py-2 rounded-md no-underline"
+                    : "text-white no-underline"
+                }`
+              }
+            >
+              setting
             </NavLink>
           </>
         )}

@@ -233,7 +233,7 @@ function SignIn({ setIsAuth }) {
       </div>
       <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
         <Modal.Header closeButton>
-          <Modal.Title>Logon Error</Modal.Title>
+          <Modal.Title>Login Error</Modal.Title>
         </Modal.Header>
         <Modal.Body>{modalMessage}</Modal.Body>
         <Modal.Footer>

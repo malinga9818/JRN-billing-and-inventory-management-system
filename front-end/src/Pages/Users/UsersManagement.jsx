@@ -19,10 +19,9 @@ function UsersManagement({ setIsAuth }) {
             >
               <div className="d-flex">
                 <Nav.Item>
-                  <Nav.Link eventKey="UserHandle">Users</Nav.Link>
+                  <Nav.Link eventKey="UserHandle">Users Management</Nav.Link>
                 </Nav.Item>
               </div>
-              <h3 className="text-center">User Management</h3>
 
               <div className="d-flex justify-content-end">
                 <Nav.Item>

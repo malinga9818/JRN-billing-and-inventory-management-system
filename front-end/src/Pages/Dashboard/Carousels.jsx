@@ -4,9 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import roof1 from "../../assets/roofing1.jpeg";
-import roof2 from "../../assets/roofing2.jpeg";
-import roof3 from "../../assets/roofing3.jpeg";
+import roof1 from "../../assets/roofn1.png";
+import roof2 from "../../assets/foofn2.png";
+import roof3 from "../../assets/img1.jpg";
 
 const talks = [
   {

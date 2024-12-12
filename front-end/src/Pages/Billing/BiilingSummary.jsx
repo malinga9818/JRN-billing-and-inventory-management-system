@@ -14,9 +14,9 @@ import Dropdowns from "../../Components/Dropdowns";
 
 const summaryData = {
   timePeriod: "TODAY",
-  sales: "17",
+  sales: "12",
   revenue: "LKR 147,370",
-  newCustomers: 15,
+  newCustomers: 5,
 };
 
 function BillingSummary({ setActiveKey }) {
@@ -104,7 +104,7 @@ function BillingSummary({ setActiveKey }) {
             </Card>
           </Col>
           <Col lg={3} md={6} sm={12}>
-            <Card className="shadow-md rounded-lg p-4">
+            <Card className="shadow-md rounded-lg p-4 hover:scale-105">
               <h5 className="text-yellow-600 font-semibold">New Customers</h5>
               <p className="text-4xl font-bold">{summaryData.newCustomers}</p>
             </Card>

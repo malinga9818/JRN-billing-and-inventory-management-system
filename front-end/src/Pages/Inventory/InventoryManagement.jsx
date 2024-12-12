@@ -50,9 +50,9 @@ function InventoryManagement({ setIsAuth }) {
                 <Page3 setactiveKey={setactiveKey} />
               </Tab.Pane>
 
-              <Tab.Pane eventKey="Product">
+              {/* <Tab.Pane eventKey="Product">
                 <Product setactiveKey={setactiveKey} />
-              </Tab.Pane>
+              </Tab.Pane> */}
 
             </Tab.Content>
           </Card.Body>
