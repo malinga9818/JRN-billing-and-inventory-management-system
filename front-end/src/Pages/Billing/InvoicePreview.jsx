@@ -14,7 +14,6 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
   const currentTime = new Date().toLocaleTimeString();
 
   const handlePrint = () => {
- 
     const printContent = invoiceRef.current.innerHTML;
     const newWindow = window.open("", "_blank");
     newWindow.document.write(`
@@ -77,11 +76,6 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
                 <strong>Time:</strong> {invoiceData.time}
               </p>
             </div>
-            <div>
-              <p>
-                <strong>Invoice :</strong> {invoiceData.invoiceNumber}
-              </p>
-            </div>
           </div>
 
           <div className="mb-4">
@@ -132,13 +126,16 @@ function InvoicePreview({ show, handleClose, invoiceData }) {
           <div className="d-flex justify-content-end">
             <div>
               <p>
-                <strong>Subtotal:</strong> {invoiceData.totals.subtotal.toFixed(2)}
+                <strong>Subtotal:</strong>{" "}
+                {invoiceData.totals.subtotal.toFixed(2)}
               </p>
               <p>
-                <strong>Total Discount:</strong> {invoiceData.totals.totalDiscount.toFixed(2)}
+                <strong>Total Discount:</strong>{" "}
+                {invoiceData.totals.totalDiscount.toFixed(2)}
               </p>
               <p>
-                <strong>Grand Total:</strong> {invoiceData.totals.grandTotal.toFixed(2)}
+                <strong>Grand Total:</strong>{" "}
+                {invoiceData.totals.grandTotal.toFixed(2)}
               </p>
             </div>
           </div>

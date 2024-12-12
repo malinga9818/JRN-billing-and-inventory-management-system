@@ -202,7 +202,7 @@ function SignIn({ setIsAuth }) {
             </p>
           </div>
         </div>
-        <div className="w-[430px] text-black bg-white rounded-md opacity-70 lg:opacity-70 relative right-0 lg:right-48 bottom-8 py-4 px-10">
+        <div className="w-[430px] text-black bg-white rounded-md opacity-70 lg:opacity-90 relative right-0 lg:right-48 bottom-8 py-4 px-10">
           <h3 className="text-center text-2xl font-bold mb-2">Log In</h3>
           <Form className="flex flex-col gap-4" onSubmit={handleSignIn}>
             <Form.Group controlId="username">

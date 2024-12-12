@@ -432,6 +432,7 @@ function UserHandle() {
     },
   });
   const [newUser, setNewUser] = useState({
+    employeeId: "",
     username: "",
     password: "",
     role: "",
@@ -494,10 +495,9 @@ function UserHandle() {
 
   const handleSaveEmployee = () => {
     setLoading(true);
-    const apiEndpoint = isEditing
-      ? `http://localhost:8000/api/employees/${currentEmployee._id}`
-      : "http://localhost:8000/api/employees";
-
+    const apiEndpoint = isEditing? `http://localhost:8000/api/employees/${currentEmployee._id}`
+    : "http://localhost:8000/api/employees";
+    
     const method = isEditing ? axios.put : axios.post;
 
     method(apiEndpoint, currentEmployee)
@@ -527,6 +527,7 @@ function UserHandle() {
   };
   const handleGrantAccessSubmit = () => {
     const userWithAccess = {
+      employeeId: currentEmployee.employeeId,
       username: newUser.username,
       password: newUser.password,
       role: newUser.role,
@@ -537,7 +538,7 @@ function UserHandle() {
       .then((response) => {
         fetchUserAccessList(); // refresh the user list
         setShowGrantAccessModal(false);
-        setNewUser({ username: "", password: "", role: "" });
+        setNewUser({ employeeId: "", username: "", password: "", role: "" });
       })
       .catch((error) => console.error("Failed to grant access:", error));
   };
@@ -571,6 +572,7 @@ function UserHandle() {
 
   const handleGrantAccessEdit = (user) => {
     setNewUser({
+      employeeId: user.employeeId,
       username: user.username,
       password: user.password,
       role: user.role,
@@ -578,13 +580,13 @@ function UserHandle() {
     setShowGrantAccessModal(true); // show modal to edit the user
   };
 
-  // handle delete user access
+  
   const handleDeleteUserAccess = (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       axios
         .delete(`http://localhost:8000/api/users/${userId}`)
         .then(() => {
-          fetchUserAccessList(); // refresh list
+          fetchUserAccessList(); 
         })
         .catch((error) => console.error("Failed to delete user:", error));
     }
@@ -595,10 +597,10 @@ function UserHandle() {
       <Row>
         <Col>
           <div className="d-flex justify-content-between align-items-center mt-4">
-          <h5>Users</h5>
-          <Button variant="primary" onClick={handleAddEmployee}>
-            Add user
-          </Button>
+            <h5>Users</h5>
+            <Button variant="primary" onClick={handleAddEmployee}>
+              Add user
+            </Button>
           </div>
           <Table striped bordered hover className="mt-3">
             <thead>
@@ -607,7 +609,6 @@ function UserHandle() {
                 <th>Name</th>
                 <th>Telephone</th>
                 <th>Email</th>
-                <th>Role</th>
                 <th>City</th>
                 <th>Street</th>
                 <th>Postal Code</th>
@@ -621,7 +622,6 @@ function UserHandle() {
                   <td>{emp.name}</td>
                   <td>{emp.telephone}</td>
                   <td>{emp.email}</td>
-                  <td>{emp.role}</td>
                   <td>{emp.address.city}</td>
                   <td>{emp.address.street}</td>
                   <td>{emp.address.postalCode}</td>
@@ -659,16 +659,18 @@ function UserHandle() {
           <Table striped bordered hover className="mt-3">
             <thead>
               <tr>
+                <th>EMP ID</th>
                 <th>Username</th>
                 <th>Password</th>
                 <th>Role</th>
                 <th>Status</th>
-                <th>Actions</th> 
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {userAccessList.map((user, index) => (
                 <tr key={index}>
+                  <td>{user.employeeId}</td>
                   <td>{user.username}</td>
                   <td>{user.password}</td>
                   <td>{user.role}</td>
@@ -699,7 +701,6 @@ function UserHandle() {
           </Table>
         </Col>
       </Row>
-
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -744,20 +745,7 @@ function UserHandle() {
                 onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group controlId="formRole">
-              <Form.Label>Role</Form.Label>
-              <Form.Control
-                as="select"
-                name="role"
-                value={currentEmployee.role}
-                onChange={handleInputChange}
-              >
-                <option value="">Select Role</option>
-                <option value="Cashier">Cashier</option>
-                <option value="Owner">Owner</option>
-                <option value="Admin">Admin</option>
-              </Form.Control>
-            </Form.Group>
+
             <Form.Group controlId="formCity">
               <Form.Label>City</Form.Label>
               <Form.Control
@@ -792,11 +780,10 @@ function UserHandle() {
             Close
           </Button>
           <Button variant="primary" onClick={handleSaveEmployee}>
-            {isEditing ? "Update Employee" : "Save Employee"}
+            {isEditing ? "Update User" : "Save User"}
           </Button>
         </Modal.Footer>
-      </Modal>
-
+      </Modal>{" "}
       <Modal
         show={showGrantAccessModal}
         onHide={() => setShowGrantAccessModal(false)}
@@ -806,6 +793,15 @@ function UserHandle() {
         </Modal.Header>
         <Modal.Body>
           <Form>
+            <Form.Group controlId="formEmployeeId">
+              <Form.Label>Employee ID</Form.Label>
+              <Form.Control
+                type="text"
+                name="employeeId"
+                value={currentEmployee.employeeId}
+                onChange={handleNewUserChange}
+              />
+            </Form.Group>
             <Form.Group controlId="formUsername">
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -832,6 +828,7 @@ function UserHandle() {
                 value={newUser.role}
                 onChange={handleNewUserChange}
               >
+                <option value="">--select role--</option>
                 <option value="cashier">Cashier</option>
                 <option value="owner">Owner</option>
                 <option value="admin">Admin</option>
