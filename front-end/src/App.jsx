@@ -134,63 +134,51 @@ const App = () => {
   return (
     <Router>
       <div className="flex h-screen">
-        {/* Side navbar - Only show when user authenticated */}
         {isAuth && (
-          <div className="bg-light-gray w-36 md:w-44 h-full">
+          <div className="bg-gray-200 w-36 md:w-44 fixed top-0 left-0 h-screen">
             <NavigationBar />
           </div>
         )}
 
-        {/* Main content */}
-        <div className="flex-1 h-screen">
-          <div className="d-flex flex-column vh-100">
-            <Routes>
-              {/* If not authenticated user redirect to signin paga */}
-              {!isAuth ? (
-                <>
-                  <Route
-                    path="/sign-in"
-                    element={<SignIn setIsAuth={setIsAuth} />}
-                  />
-                  <Route path="/sign-up" element={<SignUp />} />
-                  <Route path="*" element={<Navigate to="/sign-in" />} />
-                </>
-              ) : (
-                <>
-                  <Route
-                    path="/"
-                    element={<Dashboard setIsAuth={setIsAuth} />}
-                  />
-                  <Route
-                    path="/billing"
-                    element={<BillingManagement setIsAuth={setIsAuth} />}
-                  />
-                  {/* <Route path="/all-trasnsactions" element={<AllTrasnsactions />} /> */}
-                  <Route
-                    path="/inventory"
-                    element={<InventoryManagement setIsAuth={setIsAuth} />}
-                  />
-                  <Route
-                    path="/report"
-                    element={<ReportManagement setIsAuth={setIsAuth} />}
-                  />
-                  <Route
-                    path="/user"
-                    element={<UsersManagement setIsAuth={setIsAuth} />}
-                  />
-                  <Route
-                    path="/setting"
-                    element={<Setting />}
-                    setIsAuth={setIsAuth}
-                  />
-                  <Route
-                    path="*"
-                    element={<Navigate to="/" setIsAuth={setIsAuth} />}
-                  />
-                </>
-              )}
-            </Routes>
-          </div>
+        <div
+          className={`flex-1 overflow-y-auto ${
+            isAuth ? "ml-36 md:ml-44" : ""
+          } h-screen`}
+        >
+          <Routes>
+            {!isAuth ? (
+              <>
+                <Route
+                  path="/sign-in"
+                  element={<SignIn setIsAuth={setIsAuth} />}
+                />
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="*" element={<Navigate to="/sign-in" />} />
+              </>
+            ) : (
+              <>
+                <Route path="/" element={<Dashboard setIsAuth={setIsAuth} />} />
+                <Route
+                  path="/billing"
+                  element={<BillingManagement setIsAuth={setIsAuth} />}
+                />
+                <Route
+                  path="/inventory"
+                  element={<InventoryManagement setIsAuth={setIsAuth} />}
+                />
+                <Route
+                  path="/report"
+                  element={<ReportManagement setIsAuth={setIsAuth} />}
+                />
+                <Route
+                  path="/user"
+                  element={<UsersManagement setIsAuth={setIsAuth} />}
+                />
+                <Route path="/setting" element={<Setting />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </>
+            )}
+          </Routes>
         </div>
       </div>
     </Router>

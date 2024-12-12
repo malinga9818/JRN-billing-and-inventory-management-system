@@ -594,10 +594,12 @@ function UserHandle() {
     <Container>
       <Row>
         <Col>
-          <h1>Employee List</h1>
+          <div className="d-flex justify-content-between align-items-center mt-4">
+          <h5>Users</h5>
           <Button variant="primary" onClick={handleAddEmployee}>
-            Add Employee
+            Add user
           </Button>
+          </div>
           <Table striped bordered hover className="mt-3">
             <thead>
               <tr>
@@ -653,7 +655,7 @@ function UserHandle() {
             </tbody>
           </Table>
 
-          <h2>Granted Access Users</h2>
+          <h5>Granted Access Users</h5>
           <Table striped bordered hover className="mt-3">
             <thead>
               <tr>

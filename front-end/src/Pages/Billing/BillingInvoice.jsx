@@ -77,15 +77,20 @@ function BillingInvoice() {
       calculateTotals(newProductData);
       setShowDataTable(true); // Show the data table after adding the first item
     }
-    clearProductForm(); 
+    clearProductForm();
   };
 
+  // Calculate totals dynamically when adding items continuously
   // Calculate totals dynamically when adding items continuously
   const calculateTotals = (products) => {
     const updatedTotals = products.reduce(
       (acc, product) => {
         acc.subtotal += Number(product.qty) * Number(product.uPrice);
-        acc.totalDiscount += Number(product.discount) * Number(product.qty);
+        acc.totalDiscount +=
+          (Number(product.qty) *
+            Number(product.uPrice) *
+            Number(product.discount)) /
+          100;
         acc.grandTotal += product.total;
         return acc;
       },
@@ -94,7 +99,6 @@ function BillingInvoice() {
 
     setTotals(updatedTotals);
   };
-
   // this for handling editing a product
   const handleEditProduct = (index) => {
     const product = productData[index];
@@ -160,17 +164,17 @@ function BillingInvoice() {
       discount: "",
       editIndex: null,
     });
-    setProductData([]); 
+    setProductData([]);
 
     setTotals({
       subtotal: 0,
       totalDiscount: 0,
       grandTotal: 0,
     });
-    setCustomerName(""); 
-    setCustomerCity(""); 
-    setCustomerTel(""); 
-    setShowDataTable(false); 
+    setCustomerName("");
+    setCustomerCity("");
+    setCustomerTel("");
+    setShowDataTable(false);
   };
 
   const productNames = [
@@ -447,14 +451,29 @@ function BillingInvoice() {
                   </div>
                   <div>
                     <h5 className="font-semibold ">Invoice Summary</h5>
-
-                    <p>Subtotal: <span className="pl-10 font-semibold">{totals.subtotal}</span></p>
-                    <p>Total Discount:<span className="pl-2 font-semibold">{totals.totalDiscount}</span></p>
-                    <p>Grand Total: <span className="pl-6 font-semibold">{totals.grandTotal}</span></p>
+                    <p>
+                      Subtotal:{" "}
+                      <span className="pl-10 font-semibold">
+                        {totals.subtotal.toFixed(2)}
+                      </span>
+                    </p>
+                    <p>
+                      Total Discount:{" "}
+                      <span className="pl-2 font-semibold">
+                        {totals.totalDiscount.toFixed(2)}
+                      </span>
+                    </p>
+                    <p>
+                      Grand Total:{" "}
+                      <span className="pl-6 font-semibold">
+                        {totals.grandTotal.toFixed(2)}
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
+
             <div className="d-flex justify-content-end gap-3">
               <Button variant="danger" onClick={clearAllData}>
                 Clear

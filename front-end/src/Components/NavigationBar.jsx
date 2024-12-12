@@ -97,7 +97,7 @@ function NavigationBar() {
   const role = localStorage.getItem("role");
 
   return (
-    <Nav className="flex flex-col justify-between h-full p-4 bg-gray-800">
+    <Nav className="flex flex-col justify-between h-full p-4 bg-gray-800 sticky-top">
       <div className="flex flex-col justify-between gap-20">
         <h6>
           <Link

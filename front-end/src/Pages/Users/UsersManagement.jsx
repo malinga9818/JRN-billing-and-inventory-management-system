@@ -6,7 +6,7 @@ import User from "./User";
 import UserHandle from "./UserHandle";
 
 function UsersManagement({ setIsAuth }) {
-  const [activeKey, setactiveKey] = useState("Page1");
+  const [activeKey, setactiveKey] = useState("UserHandle");
 
   return (
     <div>
@@ -19,12 +19,7 @@ function UsersManagement({ setIsAuth }) {
             >
               <div className="d-flex">
                 <Nav.Item>
-                  <Nav.Link eventKey="Page1">Users</Nav.Link>
-                </Nav.Item>
-              </div>
-              <div className="d-flex">
-                <Nav.Item>
-                  <Nav.Link eventKey="UserHandle">Users handle</Nav.Link>
+                  <Nav.Link eventKey="UserHandle">Users</Nav.Link>
                 </Nav.Item>
               </div>
               <h3 className="text-center">User Management</h3>
@@ -38,16 +33,12 @@ function UsersManagement({ setIsAuth }) {
           </Card.Header>
           <Card.Body>
             <Tab.Content>
-              <Tab.Pane eventKey="Page1">
-                <User setactiveKey={setactiveKey} />
-              </Tab.Pane>
               <Tab.Pane eventKey="UserHandle">
                 <UserHandle setactiveKey={setactiveKey} />
               </Tab.Pane>
             </Tab.Content>
           </Card.Body>
         </Card>
-        
       </Tab.Container>
     </div>
   );
