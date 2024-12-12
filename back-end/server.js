@@ -2,6 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import invoiceRoutes from "./routers/invoiceRoutes.js";
+import inventoryRoutes from "./routers/inventoryRoutes.js";
+import authRoutes from "./routers/authRoutes.js";
+import employeeRouter from "./routers/userRouters/employeeRouter.js";
+import grantAccessRoutes from "./routers/userRouters/grantAccessRouter.js";
 
 const app = express();
 app.use(cors());
@@ -24,17 +29,12 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-import inventoryRoutes from "./routers/inventoryRoutes.js";
 app.use("/inventory", inventoryRoutes);
 
-import authRoutes from "./routers/authRoutes.js";
 app.use("/api/auth", authRoutes);
 
-import employeeRouter from "./routers/userRouters/employeeRouter.js";
 app.use("/api/employees", employeeRouter);
 
-import grantAccessRoutes from "./routers/userRouters/grantAccessRouter.js"; // Adjust the path as ne
 app.use("/api", grantAccessRoutes);
 
-import invoiceRoutes from "./routers/invoiceRoutes.js";
 app.use("/api", invoiceRoutes);

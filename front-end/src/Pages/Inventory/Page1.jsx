@@ -10,10 +10,11 @@ import {
   Col,
   Modal,
   Form,
+  Alert,
   Breadcrumb,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid"; // Install using npm install uuid
+import { v4 as uuidv4 } from "uuid";
 
 const Page1 = () => {
   const [selectedColor, setSelectedColor] = useState("All Colors");
@@ -22,6 +23,9 @@ const Page1 = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [modalAction, setModalAction] = useState(""); // "Add", "Update", or "Delete"
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [formSubmitAlert, setFormSubmitAlert] = useState(false);
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -120,6 +124,41 @@ const Page1 = () => {
     setDuplicateError("");
   };
 
+  const validateForm = () => {
+    if (formData.name === "") {
+      setAlertMessage("Please select a product name.");
+      setShowAlert(true);
+      return false;
+    }
+    if (formData.color === "") {
+      setAlertMessage("Please select a color.");
+      setShowAlert(true);
+      return false;
+    }
+    if (formData.gauge === "") {
+      setAlertMessage("Please select a gauge.");
+      setShowAlert(true);
+      return false;
+    }
+    if (formData.unit === "") {
+      setAlertMessage("Please select a unit.");
+      setShowAlert(true);
+      return false;
+    }
+    if (formData.qty === "") {
+      setAlertMessage("Please enter the quantity.");
+      setShowAlert(true);
+      return false;
+    }
+    if (formData.reorderLevel === "") {
+      setAlertMessage("Please enter the reorder level.");
+      setShowAlert(true);
+      return false;
+    }
+    setShowAlert(false);
+    return true;
+  };
+
   const handleFormSubmit = () => {
     const isDuplicate = stock.some(
       (item) =>
@@ -136,19 +175,31 @@ const Page1 = () => {
       return;
     }
 
-    setDuplicateError("");
+    if (validateForm()) {
+      if (modalAction === "Add") {
+        setStock([...stock, formData]);
+      } else if (modalAction === "Update") {
+        setStock(
+          stock.map((item) =>
+            item.id === formData.id ? { ...formData } : item
+          )
+        );
+      } else if (modalAction === "Delete") {
+        setStock(stock.filter((item) => item.id !== formData.id));
+      }
 
-    if (modalAction === "Add") {
-      setStock([...stock, formData]);
-    } else if (modalAction === "Update") {
-      setStock(
-        stock.map((item) => (item.id === formData.id ? { ...formData } : item))
-      );
-    } else if (modalAction === "Delete") {
-      setStock(stock.filter((item) => item.id !== formData.id));
+      setShowModal(false);
+      setDuplicateError("");
+      setFormData({
+        id: "",
+        name: "",
+        qty: "",
+        unit: "",
+        color: "",
+        gauge: "",
+        reorderLevel: "",
+      });
     }
-
-    handleModalClose();
   };
 
   const handleCardClick = (type) => {
@@ -162,15 +213,16 @@ const Page1 = () => {
     } else {
       setHeading("AVAILABLE STOCK");
     }
-  }; const filteredStock = stock.filter((item) => {
+  };
+  const filteredStock = stock.filter((item) => {
     const matchesHeading =
       heading === "AVAILABLE STOCK"
         ? true
         : heading === "OUT OF STOCKS ITEMS"
-          ? item.qty === 0
-          : heading === "RE-ORDER ITEMS"
-            ? item.qty < item.reorderLevel
-            : true;
+        ? item.qty === 0
+        : heading === "RE-ORDER ITEMS"
+        ? item.qty < item.reorderLevel
+        : true;
 
     const matchesColor =
       selectedColor === "All Colors" ? true : item.color === selectedColor;
@@ -178,8 +230,12 @@ const Page1 = () => {
     const matchesGauge =
       selectedGauge === "All Gauges" ? true : item.gauge === selectedGauge;
 
-    const searchByName = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const searchByColor = item.color.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchByName = item.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const searchByColor = item.color
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
 
     // combine all conditions
     return (
@@ -192,9 +248,7 @@ const Page1 = () => {
 
   return (
     <div className="px-3">
-
       <div className="d-flex align-items-center justify-content-between">
-
         <Breadcrumb>
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
             JRN
@@ -212,29 +266,26 @@ const Page1 = () => {
         <div className="mb-3 position-relative">
           <Form.Control
             type="text"
-            placeholder="Search by name or color"
+            placeholder="Search.."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border rounded-md w-80 ps-5 border-black-300"
+            className="border rounded-md w-80"
           />
         </div>
-
       </div>
 
-
-
-
-      <div >
+      <div>
         <Card className="mx-2 mb-3">
           <Row className="justify-around p-2 text-center rounded-lg bg-light d-flex">
-
             {/* <Col lg={3} md={6} sm={12}>
         <Card className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer h-100 hover:scale-105">
         </Card>
       </Col> */}
 
             <Col lg={3} md={6} sm={12}>
-              <Card border="info" className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer d-flex justify-content-center align-items-center h-100 hover:scale-105"
+              <Card
+                border="info"
+                className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer d-flex justify-content-center align-items-center h-100 hover:scale-105"
                 onClick={() => handleCardClick("Available Stock")}
               >
                 <h5 className="font-semibold text-blue-600">Available Stock</h5>
@@ -242,27 +293,35 @@ const Page1 = () => {
             </Col>
 
             <Col lg={3} md={6} sm={12}>
-              <Card border="info" className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer h-100 hover:scale-105"
+              <Card
+                border="info"
+                className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer h-100 hover:scale-105"
                 onClick={() => handleCardClick("Out Of Stocks")}
               >
                 <h5 className="font-semibold text-green-600">Out of Stocks</h5>
-                <p className="text-4xl font-bold">{stock.filter((item) => item.qty === 0).length}</p>
+                <p className="text-4xl font-bold">
+                  {stock.filter((item) => item.qty === 0).length}
+                </p>
               </Card>
             </Col>
 
             <Col lg={3} md={6} sm={12}>
-              <Card border="info" className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer h-100 hover:scale-105"
+              <Card
+                border="info"
+                className="p-4 transition-transform duration-200 rounded-lg shadow-md cursor-pointer h-100 hover:scale-105"
                 onClick={() => handleCardClick("Re-Order Items")}
               >
-                <h5 className="font-semibold text-yellow-600">Re-Order Items</h5>
-                <p className="text-4xl font-bold">{stock.filter((item) => item.qty < item.reorderLevel).length}</p>
+                <h5 className="font-semibold text-yellow-600">
+                  Re-Order Items
+                </h5>
+                <p className="text-4xl font-bold">
+                  {stock.filter((item) => item.qty < item.reorderLevel).length}
+                </p>
               </Card>
             </Col>
-
           </Row>
         </Card>
       </div>
-
 
       {/* Stock Table */}
       <div>
@@ -301,10 +360,10 @@ const Page1 = () => {
             <tr>
               <th>Product Id</th>
               <th>Product Name</th>
-              <th>Qty</th>
-              <th>Unit</th>
               <th>Color</th>
               <th>Gauge</th>
+              <th>Unit</th>
+              <th>Available Qty</th>
               <th>Re-Order Level</th>
               <th>Actions</th>
             </tr>
@@ -314,10 +373,10 @@ const Page1 = () => {
               <tr key={index}>
                 <td>{item.id}</td>
                 <td>{item.name}</td>
-                <td>{item.qty}</td>
-                <td>{item.unit}</td>
                 <td>{item.color}</td>
                 <td>{item.gauge}</td>
+                <td>{item.unit}</td>
+                <td>{item.qty}</td>
                 <td>{item.reorderLevel}</td>
                 <td>
                   <Button
@@ -364,6 +423,16 @@ const Page1 = () => {
           <Modal.Title>{modalAction} Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {showAlert && (
+            <Alert
+              variant="danger"
+              onClose={() => setShowAlert(false)}
+              dismissible
+            >
+              <strong>Warning:</strong> {alertMessage}
+            </Alert>
+          )}
+
           {modalAction === "Delete" ? (
             <p>Are you sure you want to delete this product?</p>
           ) : (
@@ -385,33 +454,7 @@ const Page1 = () => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Quantity</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={formData.qty}
-                  onChange={(e) =>
-                    setFormData({ ...formData, qty: parseInt(e.target.value) })
-                  }
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Unit</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={formData.unit}
-                  onChange={(e) =>
-                    setFormData({ ...formData, unit: e.target.value })
-                  }
-                >
-                  <option value="">Select Unit</option>
-                  {units.map((unit, index) => (
-                    <option key={index} value={unit}>
-                      {unit}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
+
               <Form.Group className="mb-3">
                 <Form.Label>Color</Form.Label>
                 <Form.Control
@@ -429,6 +472,7 @@ const Page1 = () => {
                   ))}
                 </Form.Control>
               </Form.Group>
+
               <Form.Group className="mb-3">
                 <Form.Label>Gauge</Form.Label>
                 <Form.Control
@@ -446,6 +490,36 @@ const Page1 = () => {
                   ))}
                 </Form.Control>
               </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Unit</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={formData.unit}
+                  onChange={(e) =>
+                    setFormData({ ...formData, unit: e.target.value })
+                  }
+                >
+                  <option value="">Select Unit</option>
+                  {units.map((unit, index) => (
+                    <option key={index} value={unit}>
+                      {unit}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Quantity</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={formData.qty}
+                  onChange={(e) =>
+                    setFormData({ ...formData, qty: parseInt(e.target.value) })
+                  }
+                />
+              </Form.Group>
+
               <Form.Group className="mb-3">
                 <Form.Label>Re-Order Level</Form.Label>
                 <Form.Control
@@ -464,30 +538,29 @@ const Page1 = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleModalClose}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              handleModalClose(); // Call handleModalClose function
+              setShowAlert(false); // Reset the alert state
+            }}
+          >
             Close
           </Button>
+
           {modalAction === "Delete" ? (
-            <Button
-              variant="primary"
-              onClick={() => handleFormSubmit()}
-            >
+            <Button variant="primary" onClick={() => handleFormSubmit()}>
               Yes
             </Button>
           ) : (
-            <Button
-              variant="primary"
-              onClick={() => handleFormSubmit()}
-            >
-              {modalAction === "Update" ? "Save" : "Add"}
+            <Button variant="primary" onClick={() => handleFormSubmit()}>
+              {modalAction === "Update" ? "Save Changes" : "Add Product"}
             </Button>
           )}
         </Modal.Footer>
-
       </Modal>
     </div>
   );
 };
 
 export default Page1;
-

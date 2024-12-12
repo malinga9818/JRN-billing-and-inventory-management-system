@@ -24,9 +24,9 @@ function InventoryManagement({ setIsAuth }) {
                   <Nav.Link eventKey="Page3">Raw Materials</Nav.Link>
                 </Nav.Item>
 
-                <Nav.Item>
+                {/* <Nav.Item>
                   <Nav.Link eventKey="Product">Product</Nav.Link>
-                </Nav.Item>
+                </Nav.Item> */}
               </div>
 
               

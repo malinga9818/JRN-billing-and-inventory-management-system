@@ -25,7 +25,7 @@ router.post("/invoices", async (req, res) => {
       customer: savedCustomer._id,
       products: savedProducts.map((product) => product._id),
       totals,
-      paymentStatus, 
+      paymentStatus,
     });
 
     const savedInvoice = await newInvoice.save();
@@ -58,11 +58,11 @@ router.get("/invoices", async (req, res) => {
 
     res.status(200).json(formattedInvoices);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving invoices", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error retrieving invoices", error: error.message });
   }
 });
-
-
 
 router.put("/invoices/:id", async (req, res) => {
   try {
