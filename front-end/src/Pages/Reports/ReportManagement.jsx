@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Nav, Tab } from "react-bootstrap";
-import Report from "./report";
+import Report from "./Report";
 import Header from "../../Components/Header";
 
 function ReportManagement({ setIsAuth }) {
