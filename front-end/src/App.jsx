@@ -104,8 +104,9 @@ import AllTrasnsactions from "./Pages/Billing/AllTrasnsactions";
 import InventoryManagement from "./Pages/Inventory/InventoryManagement";
 import ReportManagement from "./Pages/Reports/ReportManagement";
 import UsersManagement from "./Pages/Users/UsersManagement";
-import Setting from "./Pages/Setting/SettingManagement";
+import SettingManagement from "./Pages/Setting/SettingManagement";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   // this for track user is authenticated or not
@@ -144,7 +145,7 @@ const App = () => {
           className={`flex-1 overflow-y-auto ${
             isAuth ? "ml-36 md:ml-44" : ""
           } h-screen`}
-        >
+        > 
           <Routes>
             {!isAuth ? (
               <>
@@ -174,7 +175,7 @@ const App = () => {
                   path="/user"
                   element={<UsersManagement setIsAuth={setIsAuth} />}
                 />
-                <Route path="/setting" element={<Setting />} />
+                <Route path="/setting" element={<SettingManagement />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </>
             )}
